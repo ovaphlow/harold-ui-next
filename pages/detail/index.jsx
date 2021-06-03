@@ -287,8 +287,7 @@ export default function Detail() {
     setOption(event.target.getAttribute('data-option'));
   };
   const handleSubmit = () => {
-    console.info(data);
-    fetch('/api/harold/', {
+    fetch('/api/harold/detail', {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
