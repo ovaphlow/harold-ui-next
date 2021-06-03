@@ -1,0 +1,14 @@
+html,
+body {
+  background-color: lightgrey;
+  height: 100%;
+}
+
+#__next {
+  height: 100%;
+}
+
+.title {
+  background-color: lightslategrey;
+  /* background-color: white; */
+}
