@@ -33,7 +33,7 @@ export default function Navbar({ option }) {
             <li className="nav-item">
               <a
                 className={option === '检索' ? 'nav-link active' : 'nav-link'}
-                href="filter.html"
+                href="filter"
               >
                 <span className="fas fa-th-list fa-fw fa-lg" />
                 检索
@@ -55,7 +55,7 @@ export default function Navbar({ option }) {
                 className={
                   option === '新建作业申请' ? 'nav-link active' : 'nav-link'
                 }
-                href="detail.html"
+                href="detail"
               >
                 <span className="fas fa-plus-circle fa-fw fa-lg" />
                 新建作业申请

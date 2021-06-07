@@ -10,7 +10,6 @@ export default async (req, res) => {
         .send(req.body)
         .set('accept', 'json');
       res.status(200).json(response.body);
-      res.status(200);
     }
   } catch (err) {
     logger.error(err.stack);
