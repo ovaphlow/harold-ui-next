@@ -25,7 +25,7 @@ export default function Detail({ data }) {
     })
       .then((response) => {
         if (response.status === 200) {
-          window.history.back();
+          history.back();
         } else throw new Error('操作失败');
       })
       .catch((err) => window.alert(err));
@@ -40,11 +40,40 @@ export default function Detail({ data }) {
       body: JSON.stringify(document),
     })
       .then((response) => {
-        if (response.status === 200)
-          window.alert('数据已提交至服务器，请稍后查看。');
+        if (response.status === 200) alert('数据已提交至服务器，请稍后查看。');
         else throw new Error('操作失败');
       })
       .catch((err) => alert(err));
+  };
+  const handleCheckPdd = (event) => {
+    event.target.disabled = true;
+    fetch(`/api/harold/check/${id}?option=check-p_dd`, { method: 'PUT' })
+      .then((response) => {
+        if (response.status === 200) alert('数据已提交至服务器，请稍后查看。');
+        else throw new Error('操作失败');
+      })
+      .catch((err) => alert(err));
+  };
+  const handleCheckPzbsz = (event) => {
+    event.target.disabled = true;
+    fetch(`/api/harold/check/${id}?option=check-p_zbsz`, { method: 'PUT' })
+      .then((response) => {
+        if (response.status === 200) alert('数据已提交至服务器，请稍后查看。');
+        else throw new Error('操作失败');
+      })
+      .catch((err) => alert(err));
+  };
+  const handleCheckPbz = (event) => {
+    event.target.disabled = true;
+    fetch(`/api/harold/check/${id}?option=check-p_bz`, { method: 'PUT' })
+      .then((response) => {
+        if (response.status === 200) alert('数据已提交至服务器，请稍后查看。');
+        else throw new Error('操作失败');
+      })
+      .catch((err) => alert(err));
+  };
+  const handleReport = (event) => {
+    event.target.disabled = true;
   };
 
   React.useEffect(() => {
@@ -97,22 +126,54 @@ export default function Detail({ data }) {
                 <button className="btn btn-primary" onClick={handleSubmit}>
                   提交
                 </button>
-                <button
-                  className="btn btn-info"
-                  onClick={() => (window.location = `/check-p_jsy?id=${id}`)}
-                >
-                  技术员审核
-                </button>
+                {data.status === '' && (
+                  <button
+                    className="btn btn-info"
+                    onClick={() => (window.location = `/check-p_jsy?id=${id}`)}
+                  >
+                    技术员审核
+                  </button>
+                )}
+                {data.status === '技术员审核' && (
+                  <button className="btn btn-info" onClick={handleCheckPdd}>
+                    调度审核
+                  </button>
+                )}
+                {data.status === '调度审核' && (
+                  <button className="btn btn-info" onClick={handleCheckPzbsz}>
+                    值班所长审核
+                  </button>
+                )}
+                {data.p_zyxs.indexOf('班组') > -1 &&
+                  data.status === '值班所长审核' && (
+                    <button className="btn btn-info" onClick={handleCheckPbz}>
+                      班组签字
+                    </button>
+                  )}
+                {data.p_zyxs.indexOf('班组') > -1 &&
+                  data.status === '班组签字' && (
+                    <a href={`/report/${id}`} className="btn btn-success">
+                      作业负责人销记
+                    </a>
+                  )}
+                {data.p_zyxs.indexOf('班组') === -1 &&
+                  data.status === '值班所长审核' && (
+                    <a href={`/report/${id}`} className="btn btn-success">
+                      作业负责人销记
+                    </a>
+                  )}
               </div>
             </div>
           </div>
           <div className="card shadow mt-3">
-            <div className="card-header lead">审核阶段：{data.status}</div>
+            <div className="card-header lead">
+              审核阶段：{data.status || '无'}
+            </div>
             <div className="card-body">
               <ul className="list-group list-group-flush">
                 <li className="list-group-item d-flex justify-content-between align-items-start">
                   <div className="ms-2 me-auto">
-                    <div className="fw-bold">技术员审核（技术员信息）</div>
+                    <div className="lead">技术员审核（技术员信息）</div>
                     {data.p_zyxs}
                     <br />
                     <span className="badge bg-secondary">班组</span>
@@ -126,6 +187,36 @@ export default function Detail({ data }) {
                   <span className="text-muted">
                     {data.check_p_jsy_timeline}
                   </span>
+                </li>
+                <li className="list-group-item d-flex justify-content-between align-items-start">
+                  <div className="ms-2 me-auto">
+                    <div className="lead">调度审核（调度信息）</div>
+                  </div>
+                  <span className="text-muted">{data.check_p_dd_timeline}</span>
+                </li>
+                <li className="list-group-item d-flex justify-content-between align-items-start">
+                  <div className="ms-2 me-auto">
+                    <div className="lead">值班所长审核（值班所长信息）</div>
+                  </div>
+                  <span className="text-muted">
+                    {data.check_p_zbsz_timeline}
+                  </span>
+                </li>
+                {!!data.check_p_bz_timeline && (
+                  <li className="list-group-item d-flex justify-content-between align-items-start">
+                    <div className="ms-2 me-auto">
+                      <div className="lead">班组签字（班组信息）</div>
+                    </div>
+                    <span className="text-muted">
+                      {data.check_p_bz_timeline}
+                    </span>
+                  </li>
+                )}
+                <li className="list-group-item d-flex justify-content-between align-items-start">
+                  <div className="ms-2 me-auto">
+                    <div className="lead">作业负责人销记（作业负责人信息）</div>
+                  </div>
+                  <span className="text-muted">{data.report_timeline}</span>
                 </li>
               </ul>
             </div>
