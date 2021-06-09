@@ -162,12 +162,23 @@ export default function Detail({ data }) {
                       作业负责人销记
                     </a>
                   )}
+                {/* 工长签字 */}
+                {/* 质检签字 */}
+                {/* 值班干部/班组签字 */}
+                {/* 技术员签字 */}
+                {/* 调度签字 */}
+                {/* {data.status === '技术员签字' && ( */}
+                <a href={`/review-p_dd?id=${id}`} className="btn btn-success">
+                  调度签字（未判断）
+                </a>
+                {/* )} */}
               </div>
             </div>
           </div>
           <div className="card shadow mt-3">
             <div className="card-header lead">
-              审核阶段：{data.status || '无'}
+              审核阶段：
+              {data.status === '调度签字' ? '完结' : data.status || '无'}
             </div>
             <div className="card-body">
               <ul className="list-group list-group-flush">
@@ -215,6 +226,12 @@ export default function Detail({ data }) {
                 <li className="list-group-item d-flex justify-content-between align-items-start">
                   <div className="ms-2 me-auto">
                     <div className="lead">作业负责人销记（作业负责人信息）</div>
+                  </div>
+                  <span className="text-muted">{data.report_timeline}</span>
+                </li>
+                <li className="list-group-item d-flex justify-content-between align-items-start">
+                  <div className="ms-2 me-auto">
+                    <div className="lead">调度签字（调度信息）</div>
                   </div>
                   <span className="text-muted">{data.report_timeline}</span>
                 </li>

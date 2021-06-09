@@ -45,7 +45,10 @@ export default function Report() {
             <div className="card-body">
               <div className="row">
                 <div className="btn-group col mb-3">
-                  <a href="#" className="btn btn-outline-secondary">
+                  <a
+                    href={`/save-sub-document01?id=${id}`}
+                    className="btn btn-outline-secondary"
+                  >
                     一般部件普查记录单
                   </a>
                   <a href="#" className="btn btn-outline-secondary">
