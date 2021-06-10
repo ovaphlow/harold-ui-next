@@ -27,7 +27,8 @@ export default function SaveSubDocument02({ data }) {
   const router = useRouter();
   const { id } = router.query;
   const [subdoc02_list, setSubdoc02List] = React.useState([]);
-  const handleSubmit = () => {
+  const handleSubmit = (event) => {
+    event.target.disabled = true;
     let node_list = document.querySelectorAll('.form-check-input');
     let ll = [];
     node_list.forEach((current) => {
@@ -280,6 +281,7 @@ export default function SaveSubDocument02({ data }) {
                   }
                 />
               </div>
+              <div className="clearfix" />
               <div className="col mb-3">
                 <label className="form-label">更换原因</label>
                 <input

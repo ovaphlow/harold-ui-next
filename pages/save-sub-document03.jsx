@@ -1,57 +1,58 @@
-import dayjs from 'dayjs';
 import React from 'react';
 import { useRouter } from 'next/router';
+import dayjs from 'dayjs';
 
 import Footer from '../component/Footer';
 import Navbar from '../component/Navbar';
-import SubDocument01 from '../component/SubDocument01';
+import SubDocument03 from '../component/SubDocument03';
 import { reducer } from '../util/miscellaneous';
 
-const initial_subdoc = {
-  subject: '',
-  sn: '',
+const initial_subdoc03 = {
+  name: '',
   train: '',
-  date: dayjs().format('YYYY-MM-DD'),
   position: '',
-  time_begin: '',
-  time_end: '',
-  result: '良好',
-  report: '',
-  dept: '',
+  date: '',
+  time: '',
+  production_date: '',
+  reason: '',
+  p_gywj: '是',
+  p_ljbs: '是',
+  sn: '',
+  sn2: '',
+  p_bjaz: '是',
   operator: '',
-  remark: '无',
 };
 
-export default function SaveSubDocument01({ data }) {
-  const [subdoc, dispatch] = React.useReducer(reducer, initial_subdoc);
-  const [subdoc01_list, setSubdoc01List] = React.useState([]);
+export default function SaveSubDocument03({ data }) {
+  const [subdoc03, dispatch] = React.useReducer(reducer, initial_subdoc03);
   const router = useRouter();
   const { id } = router.query;
+  const [subdoc03_list, setSubdoc03List] = React.useState([]);
   const handleSubmit = (event) => {
-    event.target.disabled = true;
+    event.target.disabeld = true;
     let node_list = document.querySelectorAll('.form-check-input');
     let ll = [];
     node_list.forEach((current) => {
       if (current.checked) ll.push(current.value);
     });
-    fetch(`/api/harold/detail/${id}?option=report-subdoc01`, {
+    fetch(`/api/harold/detail/${id}?option=report-subdoc03`, {
       method: 'PUT',
       headers: {
         'content-type': 'application/json',
       },
-      body: JSON.stringify({ ...subdoc, carriage: ll.join(',') }),
+      body: JSON.stringify({ ...subdoc03, carriage: ll.join(',') }),
     })
       .then((response) => {
         if (response.status === 200) {
           alert('数据已提交至服务器，请稍后查看。');
-          fetchSubdoc01();
+          fetchSubdoc03();
         } else throw new Error('操作失败');
       })
       .catch((err) => alert(err));
   };
   const handleRemove = (index) => {
     if (!confirm('确定要删除所选数据？')) return;
-    fetch(`/api/harold/detail/${id}?option=remove-subdoc01`, {
+    fetch(`/api/harold/detail/${id}?option=remove-subdoc03`, {
       method: 'PUT',
       headers: {
         'content-type': 'application/json',
@@ -61,58 +62,46 @@ export default function SaveSubDocument01({ data }) {
       .then((response) => {
         if (response.status === 200) {
           alert('数据已提交至服务器，请稍后查看。');
-          fetchSubdoc01();
+          fetchSubdoc03();
         } else throw new Error('操作失败');
       })
       .catch((err) => alert(err));
   };
-  const fetchSubdoc01 = () => {
-    fetch(`/api/harold/detail/${id}?option=subdoc01`)
+  const fetchSubdoc03 = () => {
+    fetch(`/api/harold/detail/${id}?option=subdoc03`)
       .then((response) => response.json())
       .then((data) => {
-        let ll = data.subdoc01.map((current, index) => {
+        let ll = data.subdoc03.map((current, index) => {
           return { id: index, ...current };
         });
-        setSubdoc01List(ll);
+        setSubdoc03List(ll);
       })
       .catch((err) => alert(err));
   };
 
   React.useEffect(() => {
     if (!id) return;
-    fetchSubdoc01();
+    fetchSubdoc03();
   }, [id]);
 
   React.useEffect(() => {
-    console.info(data);
     dispatch({ type: 'set', payload: { key: 'train', value: data.train } });
     dispatch({
       type: 'set',
-      payload: {
-        key: 'date',
-        value: dayjs(data.time_begin).format('YYYY-MM-DD'),
-      },
+      payload: { key: 'date', value: dayjs(data.date).format('YYYY-MM-DD') },
     });
     dispatch({
       type: 'set',
       payload: {
-        key: 'time_begin',
+        key: 'time',
         value: dayjs(data.time_begin).format('HH:mm:ss'),
       },
     });
     dispatch({
       type: 'set',
-      payload: {
-        key: 'time_end',
-        value: dayjs(data.time_end).format('HH:mm:ss'),
-      },
-    });
-    dispatch({ type: 'set', payload: { key: 'dept', value: data.dept } });
-    dispatch({
-      type: 'set',
       payload: { key: 'operator', value: data.operator },
     });
-  }, []);
+  }, [data]);
 
   return (
     <div className="d-flex flex-column h-100 w-100">
@@ -121,79 +110,42 @@ export default function SaveSubDocument01({ data }) {
       </header>
       <main className="flex-grow-1">
         <div className="container-fluid title py-4">
-          <h1>一般部件普查记录单</h1>
+          <h1>关键配件更换记录表</h1>
         </div>
         <div className="container-lg mt-5">
           <div className="card shadow">
             <div className="card-body row">
               <div className="col mb-3">
-                <label className="form-label">普查项目</label>
+                <label className="form-label">部件名称</label>
                 <input
                   type="text"
-                  value={subdoc.subject}
+                  value={subdoc03.name}
                   className="form-control"
                   onChange={(event) =>
                     dispatch({
                       type: 'set',
-                      payload: {
-                        key: 'subject',
-                        value: event.target.value,
-                      },
+                      payload: { key: 'name', value: event.target.value },
                     })
                   }
                 />
               </div>
               <div className="col mb-3">
-                <label className="form-label">批准文件号</label>
+                <label className="form-label">车组</label>
                 <input
                   type="text"
-                  value={subdoc.sn}
+                  value={subdoc03.train}
                   className="form-control"
                   onChange={(event) =>
                     dispatch({
                       type: 'set',
-                      payload: {
-                        key: 'sn',
-                        value: event.target.value,
-                      },
-                    })
-                  }
-                />
-              </div>
-              <div className="col mb-3">
-                <label className="form-label">实施普查车组</label>
-                <input
-                  type="text"
-                  value={subdoc.train}
-                  className="form-control"
-                  onChange={(event) =>
-                    dispatch({
-                      type: 'set',
-                      payload: {
-                        key: 'train',
-                        value: event.target.value,
-                      },
-                    })
-                  }
-                />
-              </div>
-              <div className="col">
-                <label className="form-label">实施普查日期</label>
-                <input
-                  type="date"
-                  value={subdoc.date}
-                  className="form-control"
-                  onChange={(event) =>
-                    dispatch({
-                      type: 'set',
-                      payload: { key: 'date', value: event.target.value },
+                      payload: { key: 'train', value: event.target.value },
                     })
                   }
                 />
               </div>
               <div className="clearfix" />
               <div className="col mb-3">
-                <label className="form-label">实施普查的车厢号</label>
+                <label className="form-label">车号</label>
                 <br />
                 <div className="form-check form-check-inline">
                   <input
@@ -286,10 +238,10 @@ export default function SaveSubDocument01({ data }) {
               </div>
               <div className="clearfix" />
               <div className="col mb-3">
-                <label className="form-label">具体项点</label>
+                <label className="form-label">位置</label>
                 <input
                   type="text"
-                  value={subdoc.position}
+                  value={subdoc03.position}
                   className="form-control"
                   onChange={(event) =>
                     dispatch({
@@ -300,126 +252,168 @@ export default function SaveSubDocument01({ data }) {
                 />
               </div>
               <div className="col mb-3">
-                <label className="form-label">开工时间</label>
+                <label className="form-label">日期</label>
                 <input
-                  type="time"
-                  value={subdoc.time_begin}
+                  type="date"
+                  value={subdoc03.date}
                   className="form-control"
-                  readOnly
                   onChange={(event) =>
                     dispatch({
                       type: 'set',
-                      payload: { key: 'time_begin', value: event.target.value },
+                      payload: { key: 'date', value: event.target.value },
                     })
                   }
                 />
               </div>
-              <div className="col form-group">
-                <label className="form-label">
-                  完工时间&nbsp;
-                  <span className="badge bg-danger">
-                    销记后系统自动修改完工时间
-                  </span>
-                </label>
+              <div className="form-group col">
+                <label className="form-label">时间</label>
                 <input
                   type="time"
-                  value={subdoc.time_end}
+                  value={subdoc03.time}
                   className="form-control"
-                  readOnly
                   onChange={(event) =>
                     dispatch({
                       type: 'set',
-                      payload: { key: 'time_end', value: event.target.value },
+                      payload: {
+                        key: 'time',
+                        value: event.target.value,
+                      },
+                    })
+                  }
+                />
+              </div>
+              <div className="form-group col">
+                <label className="form-label">出厂日期</label>
+                <input
+                  type="text"
+                  value={subdoc03.production_date}
+                  className="form-control"
+                  onChange={(event) =>
+                    dispatch({
+                      type: 'set',
+                      payload: {
+                        key: 'production_date',
+                        value: event.target.value,
+                      },
                     })
                   }
                 />
               </div>
               <div className="clearfix" />
               <div className="col mb-3">
-                <label className="form-label">检查结果</label>
-                <select
-                  value={subdoc.result}
+                <label className="form-label">更换原因</label>
+                <input
+                  type="text"
+                  value={subdoc03.reason}
                   className="form-control"
                   onChange={(event) =>
                     dispatch({
                       type: 'set',
                       payload: {
-                        key: 'result',
+                        key: 'reason',
+                        value: event.target.value,
+                      },
+                    })
+                  }
+                />
+              </div>
+              <div className="clearfix" />
+              <div className="col mb-3">
+                <label className="form-label">工艺文件及各步骤</label>
+                <select
+                  value={subdoc03.p_gywj}
+                  className="form-control"
+                  onChange={(event) =>
+                    dispatch({
+                      type: 'set',
+                      payload: {
+                        key: 'p_gywj',
                         value: event.target.value,
                       },
                     })
                   }
                 >
-                  <option value="良好">良好</option>
-                  <option value="异常">异常</option>
+                  <option value="是">已阅读并掌握</option>
+                  <option value="否">未阅读并掌握</option>
                 </select>
               </div>
-              <div className="clearfix" />
               <div className="col mb-3">
-                <label className="form-label">故障及处理情况</label>
-                <input
-                  type="text"
-                  value={subdoc.report}
+                <label className="form-label">力矩扳手</label>
+                <select
+                  value={subdoc03.p_ljbs}
                   className="form-control"
                   onChange={(event) =>
                     dispatch({
                       type: 'set',
                       payload: {
-                        key: 'report',
+                        key: 'p_ljbs',
                         value: event.target.value,
                       },
+                    })
+                  }
+                >
+                  <option value="是">已校验</option>
+                  <option value="否">未校验</option>
+                </select>
+              </div>
+              <div className="col mb-3">
+                <label className="form-label">换下部件序列号</label>
+                <input
+                  type="text"
+                  value={subdoc03.sn}
+                  className="form-control"
+                  onChange={(event) =>
+                    dispatch({
+                      type: 'set',
+                      payload: { key: 'sn', value: event.target.value },
+                    })
+                  }
+                />
+              </div>
+              <div className="col mb-3">
+                <label className="form-label">换上部件序列号</label>
+                <input
+                  type="text"
+                  value={subdoc03.sn2}
+                  className="form-control"
+                  onChange={(event) =>
+                    dispatch({
+                      type: 'set',
+                      payload: { key: 'sn2', value: event.target.value },
                     })
                   }
                 />
               </div>
               <div className="clearfix" />
               <div className="col mb-3">
-                <label className="form-label">实施单位</label>
-                <input
-                  type="text"
-                  value={subdoc.dept}
+                <label className="form-label">部件、螺栓力矩、防松标记</label>
+                <select
+                  value={subdoc03.p_bjaz}
                   className="form-control"
-                  readOnly
                   onChange={(event) =>
                     dispatch({
                       type: 'set',
-                      payload: {
-                        key: 'dept',
-                        value: event.target.value,
-                      },
+                      payload: { key: 'p_bjaz', value: event.target.value },
                     })
                   }
-                />
+                >
+                  <option value="是">
+                    部件安装良好，螺栓力矩已紧固，防松标记已涂打
+                  </option>
+                  <option value="否">否</option>
+                </select>
               </div>
-              <div className="col mb-3">
-                <label className="form-label">实施者</label>
+              <div className="col-6 mb-3">
+                <label className="form-label">作业者</label>
                 <input
                   type="text"
-                  value={subdoc.operator}
+                  value={subdoc03.operator}
                   className="form-control"
                   onChange={(event) =>
                     dispatch({
                       type: 'set',
                       payload: {
                         key: 'operator',
-                        value: event.target.value,
-                      },
-                    })
-                  }
-                />
-              </div>
-              <div className="clearfix" />
-              <div className="col mb-3">
-                <label className="form-label">备注</label>
-                <input
-                  type="text"
-                  value={subdoc.remark}
-                  className="form-control"
-                  onChange={(event) =>
-                    dispatch({
-                      type: 'set',
-                      payload: {
-                        key: 'remark',
                         value: event.target.value,
                       },
                     })
@@ -446,8 +440,8 @@ export default function SaveSubDocument01({ data }) {
           </div>
           <div className="card shadow mt-3">
             <div className="card-body">
-              <SubDocument01
-                subdoc01_list={subdoc01_list}
+              <SubDocument03
+                subdoc03_list={subdoc03_list}
                 handleRemove={handleRemove}
               />
             </div>

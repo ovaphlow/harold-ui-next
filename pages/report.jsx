@@ -57,7 +57,10 @@ export default function Report() {
                   >
                     一般配件更换记录表
                   </a>
-                  <a href="#" className="btn btn-outline-secondary">
+                  <a
+                    href={`/save-sub-document03?id=${id}`}
+                    className="btn btn-outline-secondary"
+                  >
                     关键配件更换记录表
                   </a>
                   <a href="#" className="btn btn-outline-secondary">

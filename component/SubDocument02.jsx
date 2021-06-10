@@ -4,10 +4,6 @@ import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import dayjs from 'dayjs';
 
 export default function SubDocument02({ subdoc02_list, handleRemove }) {
-  React.useEffect(() => {
-    console.info(subdoc02_list);
-  }, []);
-
   return (
     <table className="table table-bordered" style={{ border: '2px solid' }}>
       <tbody>
