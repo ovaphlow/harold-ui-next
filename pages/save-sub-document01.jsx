@@ -1,12 +1,11 @@
 import dayjs from 'dayjs';
 import React from 'react';
 import { useRouter } from 'next/router';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
+import { reducer } from '../util/miscellaneous';
 import Footer from '../component/Footer';
 import Navbar from '../component/Navbar';
-import { reducer } from '../util/miscellaneous';
+import SubDocument01 from '../component/SubDocument01';
 
 const initial_subdoc = {
   subject: '',
@@ -23,7 +22,7 @@ const initial_subdoc = {
   remark: '无',
 };
 
-export default function SaveSubDocument01() {
+export default function SaveSubDocument01({ data }) {
   const [subdoc, dispatch] = React.useReducer(reducer, initial_subdoc);
   const [subdoc01_list, setSubdoc01List] = React.useState([]);
   const router = useRouter();
@@ -34,7 +33,7 @@ export default function SaveSubDocument01() {
     node_list.forEach((current) => {
       if (current.checked) ll.push(current.value);
     });
-    fetch(`/api/harold/report/${id}?option=report-subdoc01`, {
+    fetch(`/api/harold/detail/${id}?option=report-subdoc01`, {
       method: 'PUT',
       headers: {
         'content-type': 'application/json',
@@ -51,7 +50,7 @@ export default function SaveSubDocument01() {
   };
   const handleRemove = (index) => {
     if (!confirm('确定要删除所选数据？')) return;
-    fetch(`/api/harold/report/${id}?option=remove-subdoc01`, {
+    fetch(`/api/harold/detail/${id}?option=remove-subdoc01`, {
       method: 'PUT',
       headers: {
         'content-type': 'application/json',
@@ -82,6 +81,37 @@ export default function SaveSubDocument01() {
     if (!id) return;
     fetchSubdoc01();
   }, [id]);
+
+  React.useEffect(() => {
+    console.info(data);
+    dispatch({ type: 'set', payload: { key: 'train', value: data.train } });
+    dispatch({
+      type: 'set',
+      payload: {
+        key: 'date',
+        value: dayjs(data.time_begin).format('YYYY-MM-DD'),
+      },
+    });
+    dispatch({
+      type: 'set',
+      payload: {
+        key: 'time_begin',
+        value: dayjs(data.time_begin).format('HH:mm:ss'),
+      },
+    });
+    dispatch({
+      type: 'set',
+      payload: {
+        key: 'time_end',
+        value: dayjs(data.time_end).format('HH:mm:ss'),
+      },
+    });
+    dispatch({ type: 'set', payload: { key: 'dept', value: data.dept } });
+    dispatch({
+      type: 'set',
+      payload: { key: 'operator', value: data.operator },
+    });
+  }, []);
 
   return (
     <div className="d-flex flex-column h-100 w-100">
@@ -415,135 +445,10 @@ export default function SaveSubDocument01() {
           </div>
           <div className="card shadow mt-3">
             <div className="card-body">
-              <table
-                className="table table-bordered"
-                style={{ border: '2px solid' }}
-              >
-                <tbody>
-                  <tr>
-                    <td width="8%" className="text-center align-middle">
-                      普查项目
-                    </td>
-                    <td
-                      width="42%"
-                      colSpan="5"
-                      className="text-center align-middle"
-                    >
-                      {!!subdoc01_list.length && subdoc01_list[0].subject}
-                    </td>
-                    <td
-                      width="15%"
-                      colSpan="2"
-                      className="text-center align-middle"
-                    >
-                      批准文件号
-                    </td>
-                    <td
-                      width="35%"
-                      colSpan="4"
-                      className="text-center align-middle"
-                    >
-                      {!!subdoc01_list.length && subdoc01_list[0].sn}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td width="10%" className="text-center align-middle">
-                      实施普查车组
-                    </td>
-                    <td
-                      width="40%"
-                      colSpan="5"
-                      className="text-center align-middle"
-                    >
-                      {!!subdoc01_list.length && subdoc01_list[0].train}
-                    </td>
-                    <td
-                      width="10%"
-                      colSpan="2"
-                      className="text-center align-middle"
-                    >
-                      实施普查日期
-                    </td>
-                    <td
-                      width="40%"
-                      colSpan="4"
-                      className="text-center align-middle"
-                    >
-                      {!!subdoc01_list.length && subdoc01_list[0].date}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td width="8%" className="text-center align-middle">
-                      实施普查
-                      <br />
-                      的车厢号
-                    </td>
-                    <td width="10%" className="text-center align-middle">
-                      具体项点
-                    </td>
-                    <td width="6%" className="text-center align-middle">
-                      开工
-                      <br />
-                      时间
-                    </td>
-                    <td width="6%" className="text-center align-middle">
-                      完工
-                      <br />
-                      时间
-                    </td>
-                    <td width="6%" className="text-center align-middle">
-                      检查
-                      <br />
-                      结果
-                    </td>
-                    <td width="14%" className="text-center align-middle">
-                      故障及处理情况
-                    </td>
-                    <td width="8%" className="text-center align-middle">
-                      实施单位
-                    </td>
-                    <td width="7%" className="text-center align-middle">
-                      实施者
-                    </td>
-                    <td width="8%" className="text-center align-middle">
-                      动车组
-                      <br />
-                      现场监控人
-                    </td>
-                    <td width="8%" className="text-center align-middle">
-                      监控班组
-                    </td>
-                    <td width="8%" className="text-center align-middle">
-                      质检员
-                    </td>
-                    <td className="text-center align-middle">备注</td>
-                  </tr>
-                  {subdoc01_list.map((current) => (
-                    <tr key={current.id}>
-                      <td className="d-flex justify-content-between">
-                        <span
-                          className="text-danger"
-                          onClick={() => handleRemove(current.id)}
-                        >
-                          <FontAwesomeIcon icon={faTrashAlt} fixedWidth />
-                        </span>
-                        {current.carriage}
-                      </td>
-                      <td>{current.position}</td>
-                      <td>{current.time_begin}</td>
-                      <td>{current.time_end}</td>
-                      <td>{current.result}</td>
-                      <td>{current.report}</td>
-                      <td>{current.dept}</td>
-                      <td>{current.operator}</td>
-                      <td>{current.duty || ''}</td>
-                      <td>{current.p_bz || ''}</td>
-                      <td>{current.qc || ''}</td>
-                      <td>{current.remark || ''}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <SubDocument01
+                subdoc01_list={subdoc01_list}
+                handleRemove={handleRemove}
+              />
             </div>
           </div>
         </div>
@@ -551,4 +456,13 @@ export default function SaveSubDocument01() {
       <Footer />
     </div>
   );
+}
+
+export async function getServerSideProps(context) {
+  const { id } = context.query;
+
+  const response = await fetch(`${process.env.gateway}/api/harold/${id}`);
+  const data = await response.json();
+
+  return { props: { data } };
 }

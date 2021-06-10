@@ -1,9 +1,9 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 
-import Footer from '../../component/Footer';
-import Navbar from '../../component/Navbar';
-import { reducer } from '../../util/miscellaneous';
+import Footer from '../component/Footer';
+import Navbar from '../component/Navbar';
+import { reducer } from '../util/miscellaneous';
 
 const initial_data = {
   report: '',
@@ -16,7 +16,7 @@ export default function Report() {
   const { id } = router.query;
   const handleReport = (event) => {
     event.target.disabled = true;
-    fetch(`/api/harold/report/${id}?option=report`, {
+    fetch(`/api/harold/detail/${id}?option=report`, {
       method: 'PUT',
       headers: {
         'content-type': 'application/json',

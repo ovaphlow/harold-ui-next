@@ -47,7 +47,7 @@ export default function Detail({ data }) {
   };
   const handleCheckPdd = (event) => {
     event.target.disabled = true;
-    fetch(`/api/harold/check/${id}?option=check-p_dd`, { method: 'PUT' })
+    fetch(`/api/harold/detail/${id}?option=check-p_dd`, { method: 'PUT' })
       .then((response) => {
         if (response.status === 200) alert('数据已提交至服务器，请稍后查看。');
         else throw new Error('操作失败');
@@ -56,7 +56,7 @@ export default function Detail({ data }) {
   };
   const handleCheckPzbsz = (event) => {
     event.target.disabled = true;
-    fetch(`/api/harold/check/${id}?option=check-p_zbsz`, { method: 'PUT' })
+    fetch(`/api/harold/detail/${id}?option=check-p_zbsz`, { method: 'PUT' })
       .then((response) => {
         if (response.status === 200) alert('数据已提交至服务器，请稍后查看。');
         else throw new Error('操作失败');
@@ -65,7 +65,7 @@ export default function Detail({ data }) {
   };
   const handleCheckPbz = (event) => {
     event.target.disabled = true;
-    fetch(`/api/harold/check/${id}?option=check-p_bz`, { method: 'PUT' })
+    fetch(`/api/harold/detail/${id}?option=check-p_bz`, { method: 'PUT' })
       .then((response) => {
         if (response.status === 200) alert('数据已提交至服务器，请稍后查看。');
         else throw new Error('操作失败');
@@ -152,13 +152,13 @@ export default function Detail({ data }) {
                   )}
                 {data.p_zyxs.indexOf('班组') > -1 &&
                   data.status === '班组签字' && (
-                    <a href={`/report/${id}`} className="btn btn-success">
+                    <a href={`/report?id=${id}`} className="btn btn-success">
                       作业负责人销记
                     </a>
                   )}
                 {data.p_zyxs.indexOf('班组') === -1 &&
                   data.status === '值班所长审核' && (
-                    <a href={`/report/${id}`} className="btn btn-success">
+                    <a href={`/report?id=${id}`} className="btn btn-success">
                       作业负责人销记
                     </a>
                   )}

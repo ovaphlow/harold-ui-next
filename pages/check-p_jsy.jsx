@@ -28,7 +28,7 @@ export default function CheckPjsy() {
   };
   const handleSubmit = (event) => {
     event.target.disabled = true;
-    fetch(`/api/harold/check/${id}?option=check-p_jsy`, {
+    fetch(`/api/harold/detail/${id}?option=check-p_jsy`, {
       method: 'PUT',
       headers: {
         'content-type': 'application/json',

@@ -11,7 +11,7 @@ export default function ReviewPdd({ data }) {
   const { id } = router.query;
   const handleReviewPdd = (event) => {
     event.target.disabled = true;
-    fetch(`/api/harold/review/${id}?option=review-p_dd`, {
+    fetch(`/api/harold/detail/${id}?option=review-p_dd`, {
       method: 'PUT',
       headers: {
         'content-type': 'application/json',
