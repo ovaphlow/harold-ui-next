@@ -4,10 +4,10 @@ import { useRouter } from 'next/router';
 
 import Footer from '../component/Footer';
 import Navbar from '../component/Navbar';
-import SubDocument01 from '../component/SubDocument01';
+import SubDocument04 from '../component/SubDocument04';
 import { reducer } from '../util/miscellaneous';
 
-const initial_subdoc = {
+const initial_subdoc04 = {
   subject: '',
   sn: '',
   train: '',
@@ -22,11 +22,11 @@ const initial_subdoc = {
   remark: '无',
 };
 
-export default function SaveSubDocument01({ data }) {
-  const [subdoc, dispatch] = React.useReducer(reducer, initial_subdoc);
-  const [subdoc01_list, setSubdoc01List] = React.useState([]);
+export default function SaveSubDocument04({ data }) {
+  const [subdoc04, dispatch] = React.useReducer(reducer, initial_subdoc04);
   const router = useRouter();
   const { id } = router.query;
+  const [subdoc04_list, setSubdoc04List] = React.useState([]);
   const handleSubmit = (event) => {
     event.target.disabled = true;
     let node_list = document.querySelectorAll('.form-check-input');
@@ -34,12 +34,12 @@ export default function SaveSubDocument01({ data }) {
     node_list.forEach((current) => {
       if (current.checked) ll.push(current.value);
     });
-    fetch(`/api/harold/detail/${id}?option=report-subdoc01`, {
+    fetch(`/api/harold/detail/${id}?option=report-subdoc04`, {
       method: 'PUT',
       headers: {
         'content-type': 'application/json',
       },
-      body: JSON.stringify({ ...subdoc, carriage: ll.join(',') }),
+      body: JSON.stringify({ ...subdoc04, carriage: ll.join(',') }),
     })
       .then((response) => {
         if (response.status === 200) {
@@ -51,7 +51,7 @@ export default function SaveSubDocument01({ data }) {
   };
   const handleRemove = (index) => {
     if (!confirm('确定要删除所选数据？')) return;
-    fetch(`/api/harold/detail/${id}?option=remove-subdoc01`, {
+    fetch(`/api/harold/detail/${id}?option=remove-subdoc04`, {
       method: 'PUT',
       headers: {
         'content-type': 'application/json',
@@ -61,26 +61,26 @@ export default function SaveSubDocument01({ data }) {
       .then((response) => {
         if (response.status === 200) {
           alert('数据已提交至服务器，请稍后查看。');
-          fetchSubdoc01();
+          fetchSubdoc04();
         } else throw new Error('操作失败');
       })
       .catch((err) => alert(err));
   };
-  const fetchSubdoc01 = () => {
-    fetch(`/api/harold/detail/${id}?option=subdoc01`)
+  const fetchSubdoc04 = () => {
+    fetch(`/api/harold/detail/${id}?option=subdoc04`)
       .then((response) => response.json())
       .then((data) => {
-        let ll = data.subdoc01.map((current, index) => {
+        let ll = data.subdoc04.map((current, index) => {
           return { id: index, ...current };
         });
-        setSubdoc01List(ll);
+        setSubdoc04List(ll);
       })
       .catch((err) => alert(err));
   };
 
   React.useEffect(() => {
     if (!id) return;
-    fetchSubdoc01();
+    fetchSubdoc04();
   }, [id]);
 
   React.useEffect(() => {
@@ -120,7 +120,7 @@ export default function SaveSubDocument01({ data }) {
       </header>
       <main className="flex-grow-1">
         <div className="container-fluid title py-4">
-          <h1>一般部件普查记录单</h1>
+          <h1>加装改造（软件升级）记录单</h1>
         </div>
         <div className="container-lg mt-5">
           <div className="card shadow">
@@ -129,7 +129,7 @@ export default function SaveSubDocument01({ data }) {
                 <label className="form-label">普查项目</label>
                 <input
                   type="text"
-                  value={subdoc.subject}
+                  value={subdoc04.subject}
                   className="form-control"
                   onChange={(event) =>
                     dispatch({
@@ -146,7 +146,7 @@ export default function SaveSubDocument01({ data }) {
                 <label className="form-label">批准文件号</label>
                 <input
                   type="text"
-                  value={subdoc.sn}
+                  value={subdoc04.sn}
                   className="form-control"
                   onChange={(event) =>
                     dispatch({
@@ -163,7 +163,7 @@ export default function SaveSubDocument01({ data }) {
                 <label className="form-label">实施普查车组</label>
                 <input
                   type="text"
-                  value={subdoc.train}
+                  value={subdoc04.train}
                   className="form-control"
                   onChange={(event) =>
                     dispatch({
@@ -180,7 +180,7 @@ export default function SaveSubDocument01({ data }) {
                 <label className="form-label">实施普查日期</label>
                 <input
                   type="date"
-                  value={subdoc.date}
+                  value={subdoc04.date}
                   className="form-control"
                   onChange={(event) =>
                     dispatch({
@@ -288,7 +288,7 @@ export default function SaveSubDocument01({ data }) {
                 <label className="form-label">具体项点</label>
                 <input
                   type="text"
-                  value={subdoc.position}
+                  value={subdoc04.position}
                   className="form-control"
                   onChange={(event) =>
                     dispatch({
@@ -302,7 +302,7 @@ export default function SaveSubDocument01({ data }) {
                 <label className="form-label">开工时间</label>
                 <input
                   type="time"
-                  value={subdoc.time_begin}
+                  value={subdoc04.time_begin}
                   className="form-control"
                   readOnly
                   onChange={(event) =>
@@ -322,7 +322,7 @@ export default function SaveSubDocument01({ data }) {
                 </label>
                 <input
                   type="time"
-                  value={subdoc.time_end}
+                  value={subdoc04.time_end}
                   className="form-control"
                   readOnly
                   onChange={(event) =>
@@ -337,7 +337,7 @@ export default function SaveSubDocument01({ data }) {
               <div className="col mb-3">
                 <label className="form-label">检查结果</label>
                 <select
-                  value={subdoc.result}
+                  value={subdoc04.result}
                   className="form-control"
                   onChange={(event) =>
                     dispatch({
@@ -358,7 +358,7 @@ export default function SaveSubDocument01({ data }) {
                 <label className="form-label">故障及处理情况</label>
                 <input
                   type="text"
-                  value={subdoc.report}
+                  value={subdoc04.report}
                   className="form-control"
                   onChange={(event) =>
                     dispatch({
@@ -376,7 +376,7 @@ export default function SaveSubDocument01({ data }) {
                 <label className="form-label">实施单位</label>
                 <input
                   type="text"
-                  value={subdoc.dept}
+                  value={subdoc04.dept}
                   className="form-control"
                   readOnly
                   onChange={(event) =>
@@ -394,7 +394,7 @@ export default function SaveSubDocument01({ data }) {
                 <label className="form-label">实施者</label>
                 <input
                   type="text"
-                  value={subdoc.operator}
+                  value={subdoc04.operator}
                   className="form-control"
                   onChange={(event) =>
                     dispatch({
@@ -412,7 +412,7 @@ export default function SaveSubDocument01({ data }) {
                 <label className="form-label">备注</label>
                 <input
                   type="text"
-                  value={subdoc.remark}
+                  value={subdoc04.remark}
                   className="form-control"
                   onChange={(event) =>
                     dispatch({
@@ -445,8 +445,8 @@ export default function SaveSubDocument01({ data }) {
           </div>
           <div className="card shadow mt-3">
             <div className="card-body">
-              <SubDocument01
-                subdoc01_list={subdoc01_list}
+              <SubDocument04
+                subdoc04_list={subdoc04_list}
                 handleRemove={handleRemove}
               />
             </div>
