@@ -1,5 +1,7 @@
 import React from 'react';
 import dayjs from 'dayjs';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLink } from '@fortawesome/free-solid-svg-icons';
 
 import Footer from '../component/Footer.jsx';
 import Navbar from '../component/Navbar.jsx';
@@ -32,14 +34,6 @@ export default function Filter() {
         setDataList(data);
       });
   };
-
-  React.useEffect(() => {
-    fetch('/api/hello')
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      });
-  }, []);
 
   React.useEffect(() => {
     setDataList([]);
@@ -233,10 +227,11 @@ export default function Filter() {
                     <tr key={current.id}>
                       <td>
                         <a
-                          href={`detail.html?id=${current.id}`}
+                          href={`/detail/${current.id}`}
                           className="text-decoration-none"
                         >
-                          <span className="fas fa-link fa-fw" />
+                          {/* <span className="fas fa-link fa-fw" /> */}
+                          <FontAwesomeIcon icon={faLink} fixedWidth />
                         </a>
                         <span className="float-end">{current.id}</span>
                       </td>
