@@ -16,7 +16,7 @@ export default function ReviewPdd({ data }) {
       headers: {
         'content-type': 'application/json',
       },
-      body: JSON.stringify(document),
+      body: JSON.stringify({ remark: document.remark }),
     })
       .then((response) => {
         if (response.status === 200) {
