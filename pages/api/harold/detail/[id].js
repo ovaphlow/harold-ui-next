@@ -12,10 +12,7 @@ export default async (req, res) => {
         '?option=',
         req.query.option,
       ];
-      let response = await superagent
-        .get(url.join(''))
-        .send(req.body)
-        .set('accept', 'json');
+      let response = await superagent.get(url.join(''));
       res.status(response.status).send(response.body);
     } else if (req.method === 'PUT') {
       let url = [

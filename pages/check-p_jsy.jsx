@@ -83,7 +83,7 @@ export default function CheckPjsy() {
                     <option value="班组、质检跟踪">班组、质检跟踪</option>
                   </select>
                 </div>
-                <div className="clearfix" />
+                <div className="w-100" />
                 <div className="col mb-3">
                   <label className="form-label">选择班组</label>
                   <input
@@ -104,7 +104,7 @@ export default function CheckPjsy() {
                     style={{ disabled: true }}
                   />
                 </div>
-                <div className="clearfix" />
+                <div className="w-100" />
                 <div className="col mb-3">
                   <label className="form-label">选择质检</label>
                   <input

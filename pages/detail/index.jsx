@@ -22,7 +22,7 @@ export function Form({ data, dispatch }) {
           }
         />
       </div>
-      <div className="clearfix" />
+      <div className="w-100" />
       <div className="col mb-3">
         <label className="form-label">申请人</label>
         <input
@@ -88,7 +88,7 @@ export function Form({ data, dispatch }) {
           }
         />
       </div>
-      <div className="clearfix" />
+      <div className="w-100" />
       <hr />
       <div className="col-3 mb-3">
         <label className="form-label">作业车组</label>
@@ -138,7 +138,7 @@ export function Form({ data, dispatch }) {
           }
         />
       </div>
-      <div className="clearfix" />
+      <div className="w-100" />
       <div className="col-3 mb-3">
         <label className="form-label">作业内容</label>
         <select
@@ -178,7 +178,7 @@ export function Form({ data, dispatch }) {
           }
         />
       </div>
-      <div className="clearfix" />
+      <div className="w-100" />
       <hr />
       <p className="text-muted lead">施修要求</p>
       <div className="col mb-3">
@@ -241,7 +241,7 @@ export function Form({ data, dispatch }) {
           <option value="无要求">无要求</option>
         </select>
       </div>
-      <div className="clearfix" />
+      <div className="w-100" />
       <div className="col mb-3">
         <label className="form-label">其它</label>
         <input

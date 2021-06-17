@@ -9,14 +9,13 @@ import { reducer } from '../util/miscellaneous';
 
 const initial_subdoc04 = {
   subject: '',
+  version: '',
+  version2: '',
   sn: '',
   train: '',
   date: dayjs().format('YYYY-MM-DD'),
-  position: '',
   time_begin: '',
   time_end: '',
-  result: '良好',
-  report: '',
   dept: '',
   operator: '',
   remark: '无',
@@ -44,7 +43,7 @@ export default function SaveSubDocument04({ data }) {
       .then((response) => {
         if (response.status === 200) {
           alert('数据已提交至服务器，请稍后查看。');
-          fetchSubdoc01();
+          fetchSubdoc04();
         } else throw new Error('操作失败');
       })
       .catch((err) => alert(err));
@@ -70,7 +69,7 @@ export default function SaveSubDocument04({ data }) {
     fetch(`/api/harold/detail/${id}?option=subdoc04`)
       .then((response) => response.json())
       .then((data) => {
-        let ll = data.subdoc04.map((current, index) => {
+        let ll = eval(data.subdoc04).map((current, index) => {
           return { id: index, ...current };
         });
         setSubdoc04List(ll);
@@ -111,7 +110,7 @@ export default function SaveSubDocument04({ data }) {
       type: 'set',
       payload: { key: 'operator', value: data.operator },
     });
-  }, []);
+  }, [data]);
 
   return (
     <div className="d-flex flex-column h-100 w-100">
@@ -125,8 +124,8 @@ export default function SaveSubDocument04({ data }) {
         <div className="container-lg mt-5">
           <div className="card shadow">
             <div className="card-body row">
-              <div className="col mb-3">
-                <label className="form-label">普查项目</label>
+              <div className="col-6 mb-3">
+                <label className="form-label">实施改造项目（升级系统）</label>
                 <input
                   type="text"
                   value={subdoc04.subject}
@@ -142,6 +141,41 @@ export default function SaveSubDocument04({ data }) {
                   }
                 />
               </div>
+              <div className="col mb-3">
+                <label className="form-label">软件版本号（新）</label>
+                <input
+                  type="text"
+                  value={subdoc04.version}
+                  className="form-control"
+                  onChange={(event) =>
+                    dispatch({
+                      type: 'set',
+                      payload: {
+                        key: 'version',
+                        value: event.target.value,
+                      },
+                    })
+                  }
+                />
+              </div>
+              <div className="col mb-3">
+                <label className="form-label">软件版本号（旧）</label>
+                <input
+                  type="text"
+                  value={subdoc04.version2}
+                  className="form-control"
+                  onChange={(event) =>
+                    dispatch({
+                      type: 'set',
+                      payload: {
+                        key: 'version2',
+                        value: event.target.value,
+                      },
+                    })
+                  }
+                />
+              </div>
+              <div className="w-100" />
               <div className="col mb-3">
                 <label className="form-label">批准文件号</label>
                 <input
@@ -160,7 +194,7 @@ export default function SaveSubDocument04({ data }) {
                 />
               </div>
               <div className="col mb-3">
-                <label className="form-label">实施普查车组</label>
+                <label className="form-label">实施改造车组</label>
                 <input
                   type="text"
                   value={subdoc04.train}
@@ -177,7 +211,7 @@ export default function SaveSubDocument04({ data }) {
                 />
               </div>
               <div className="col">
-                <label className="form-label">实施普查日期</label>
+                <label className="form-label">实施改造日期</label>
                 <input
                   type="date"
                   value={subdoc04.date}
@@ -190,9 +224,9 @@ export default function SaveSubDocument04({ data }) {
                   }
                 />
               </div>
-              <div className="clearfix" />
+              <div className="w-100" />
               <div className="col mb-3">
-                <label className="form-label">实施普查的车厢号</label>
+                <label className="form-label">实施改造的车厢号</label>
                 <br />
                 <div className="form-check form-check-inline">
                   <input
@@ -283,21 +317,7 @@ export default function SaveSubDocument04({ data }) {
                   </label>
                 </div>
               </div>
-              <div className="clearfix" />
-              <div className="col mb-3">
-                <label className="form-label">具体项点</label>
-                <input
-                  type="text"
-                  value={subdoc04.position}
-                  className="form-control"
-                  onChange={(event) =>
-                    dispatch({
-                      type: 'set',
-                      payload: { key: 'position', value: event.target.value },
-                    })
-                  }
-                />
-              </div>
+              <div className="w-100" />
               <div className="col mb-3">
                 <label className="form-label">开工时间</label>
                 <input
@@ -333,45 +353,7 @@ export default function SaveSubDocument04({ data }) {
                   }
                 />
               </div>
-              <div className="clearfix" />
-              <div className="col mb-3">
-                <label className="form-label">检查结果</label>
-                <select
-                  value={subdoc04.result}
-                  className="form-control"
-                  onChange={(event) =>
-                    dispatch({
-                      type: 'set',
-                      payload: {
-                        key: 'result',
-                        value: event.target.value,
-                      },
-                    })
-                  }
-                >
-                  <option value="良好">良好</option>
-                  <option value="异常">异常</option>
-                </select>
-              </div>
-              <div className="clearfix" />
-              <div className="col mb-3">
-                <label className="form-label">故障及处理情况</label>
-                <input
-                  type="text"
-                  value={subdoc04.report}
-                  className="form-control"
-                  onChange={(event) =>
-                    dispatch({
-                      type: 'set',
-                      payload: {
-                        key: 'report',
-                        value: event.target.value,
-                      },
-                    })
-                  }
-                />
-              </div>
-              <div className="clearfix" />
+              <div className="w-100" />
               <div className="col mb-3">
                 <label className="form-label">实施单位</label>
                 <input
@@ -407,7 +389,7 @@ export default function SaveSubDocument04({ data }) {
                   }
                 />
               </div>
-              <div className="clearfix" />
+              <div className="w-100" />
               <div className="col mb-3">
                 <label className="form-label">备注</label>
                 <input

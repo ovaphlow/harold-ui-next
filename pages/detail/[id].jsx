@@ -233,7 +233,9 @@ export default function Detail({ data }) {
                   <div className="ms-2 me-auto">
                     <div className="lead">调度签字（调度信息）</div>
                   </div>
-                  <span className="text-muted">{data.report_timeline}</span>
+                  <span className="text-muted">
+                    {data.review_p_dd_timeline}
+                  </span>
                 </li>
               </ul>
             </div>

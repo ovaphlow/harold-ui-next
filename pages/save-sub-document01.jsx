@@ -190,7 +190,7 @@ export default function SaveSubDocument01({ data }) {
                   }
                 />
               </div>
-              <div className="clearfix" />
+              <div className="w-100" />
               <div className="col mb-3">
                 <label className="form-label">实施普查的车厢号</label>
                 <br />
@@ -283,7 +283,7 @@ export default function SaveSubDocument01({ data }) {
                   </label>
                 </div>
               </div>
-              <div className="clearfix" />
+              <div className="w-100" />
               <div className="col mb-3">
                 <label className="form-label">具体项点</label>
                 <input
@@ -333,7 +333,7 @@ export default function SaveSubDocument01({ data }) {
                   }
                 />
               </div>
-              <div className="clearfix" />
+              <div className="w-100" />
               <div className="col mb-3">
                 <label className="form-label">检查结果</label>
                 <select
@@ -353,7 +353,7 @@ export default function SaveSubDocument01({ data }) {
                   <option value="异常">异常</option>
                 </select>
               </div>
-              <div className="clearfix" />
+              <div className="w-100" />
               <div className="col mb-3">
                 <label className="form-label">故障及处理情况</label>
                 <input
@@ -371,7 +371,7 @@ export default function SaveSubDocument01({ data }) {
                   }
                 />
               </div>
-              <div className="clearfix" />
+              <div className="w-100" />
               <div className="col mb-3">
                 <label className="form-label">实施单位</label>
                 <input
@@ -407,7 +407,7 @@ export default function SaveSubDocument01({ data }) {
                   }
                 />
               </div>
-              <div className="clearfix" />
+              <div className="w-100" />
               <div className="col mb-3">
                 <label className="form-label">备注</label>
                 <input

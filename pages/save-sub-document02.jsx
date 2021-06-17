@@ -142,7 +142,7 @@ export default function SaveSubDocument02({ data }) {
                   }
                 />
               </div>
-              <div className="clearfix" />
+              <div className="w-100" />
               <div className="col mb-3">
                 <label className="form-label">车号</label>
                 <br />
@@ -235,7 +235,7 @@ export default function SaveSubDocument02({ data }) {
                   </label>
                 </div>
               </div>
-              <div className="clearfix" />
+              <div className="w-100" />
               <div className="col mb-3">
                 <label className="form-label">位置</label>
                 <input
@@ -281,7 +281,7 @@ export default function SaveSubDocument02({ data }) {
                   }
                 />
               </div>
-              <div className="clearfix" />
+              <div className="w-100" />
               <div className="col mb-3">
                 <label className="form-label">更换原因</label>
                 <input
@@ -299,7 +299,7 @@ export default function SaveSubDocument02({ data }) {
                   }
                 />
               </div>
-              <div className="clearfix" />
+              <div className="w-100" />
               <div className="col mb-3">
                 <label className="form-label">工艺文件及各步骤</label>
                 <select
@@ -366,7 +366,7 @@ export default function SaveSubDocument02({ data }) {
                   }
                 />
               </div>
-              <div className="clearfix" />
+              <div className="w-100" />
               <div className="col mb-3">
                 <label className="form-label">部件、螺栓力矩、防松标记</label>
                 <select

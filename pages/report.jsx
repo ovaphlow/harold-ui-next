@@ -71,7 +71,7 @@ export default function Report() {
                   </a>
                 </div>
                 <hr />
-                <div className="clearfix" />
+                <div className="w-100" />
                 <div className="col mb-3">
                   <label className="form-label">作业完成情况</label>
                   <input
@@ -89,7 +89,7 @@ export default function Report() {
                     }
                   />
                 </div>
-                <div className="clearfix" />
+                <div className="w-100" />
                 <div className="col mb-3">
                   <label className="form-label">备注</label>
                   <input

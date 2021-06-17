@@ -177,7 +177,7 @@ export default function Filter() {
                     }
                   />
                 </div>
-                <div className="clearfix" />
+                <div className="w-100" />
                 <div className="input-group mb-3 col">
                   <span className="input-group-text">作业内容</span>
                   <input
