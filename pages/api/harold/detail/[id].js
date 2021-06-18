@@ -22,10 +22,8 @@ export default async (req, res) => {
         '?option=',
         req.query.option,
       ];
-      let response = await superagent
-        .put(url.join(''))
-        .send(req.body)
-        .set('accept', 'json');
+      let response = await superagent.put(url.join('')).send(req.body);
+      // .set('content-type', 'application/json');
       res.status(response.status).send();
     } else {
       res.status(200).send();

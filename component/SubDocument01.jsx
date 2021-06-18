@@ -2,7 +2,56 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
-export default function SubDocument01({ subdoc01_list, handleRemove }) {
+export default function SubDocument01({
+  subdoc01_list,
+  handleRemove,
+  option,
+  id,
+}) {
+  const handlePbz = (event) => {
+    let result = event.target.value;
+    let subid = event.target.getAttribute('data-id');
+    if (!!result) {
+      fetch(`/api/harold/detail/${id}?option=review-p_bz-subdoc01`, {
+        method: 'PUT',
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: subid,
+          duty: '测试监控人', //
+          p_bz: '测试班组', //
+          review_p_bz: result,
+        }),
+      })
+        .then((response) => {
+          if (response.status === 200)
+            alert('数据已提交至服务器，请稍后查看。');
+          else throw new Error('操作失败');
+        })
+        .catch((err) => alert(err));
+    } else {
+      fetch(`/api/harold/detail/${id}?option=review-p_bz-subdoc01`, {
+        method: 'PUT',
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: subid,
+          duty: '', //
+          p_bz: '', //
+          review_p_bz: '',
+        }),
+      })
+        .then((response) => {
+          if (response.status === 200)
+            alert('数据已提交至服务器，请稍后查看。');
+          else throw new Error('操作失败');
+        })
+        .catch((err) => alert(err));
+    }
+  };
+
   return (
     <table className="table table-bordered" style={{ border: '2px solid' }}>
       <tbody>
@@ -98,7 +147,21 @@ export default function SubDocument01({ subdoc01_list, handleRemove }) {
             <td>{current.report}</td>
             <td>{current.dept}</td>
             <td>{current.operator}</td>
-            <td>{current.duty || ''}</td>
+            <td>
+              {current.duty || ''}
+              {!!(option.indexOf('p_bz') + 1) && (
+                <select
+                  className="form-control"
+                  data-id={current.id}
+                  defaultValue={current.review_p_bz}
+                  onChange={handlePbz}
+                >
+                  <option value="">监控结果</option>
+                  <option value="确认">确认</option>
+                  <option value="未确认">未确认</option>
+                </select>
+              )}
+            </td>
             <td>{current.p_bz || ''}</td>
             <td>{current.qc || ''}</td>
             <td>{current.remark || ''}</td>

@@ -162,10 +162,19 @@ export default function Detail({ data }) {
                       作业负责人销记
                     </a>
                   )}
-                {/* 工长签字 */}
+                {/* (1,4)监控班组签字 */}
+                {data.status === '作业负责人销记' &&
+                  data.subdoc01.toString().length > 2 && (
+                    <a
+                      href={`/review-p_bz?id=${id}`}
+                      className="btn btn-success"
+                    >
+                      监控班组签字
+                    </a>
+                  )}
+                {/* (2,3)工长签字 */}
                 {/* 质检签字 */}
-                {/* 值班干部/班组签字 */}
-                {/* 技术员签字 */}
+                {/* (2,3)值班干部签字 */}
                 {/* 调度签字 */}
                 {/* {data.status === '技术员签字' && ( */}
                 <a href={`/review-p_dd?id=${id}`} className="btn btn-success">
@@ -178,7 +187,7 @@ export default function Detail({ data }) {
           <div className="card shadow mt-3">
             <div className="card-header lead">
               审核阶段：
-              {data.status === '调度签字' ? '完结' : data.status || '无'}
+              {data.status}
             </div>
             <div className="card-body">
               <ul className="list-group list-group-flush">
@@ -223,20 +232,36 @@ export default function Detail({ data }) {
                     </span>
                   </li>
                 )}
-                <li className="list-group-item d-flex justify-content-between align-items-start">
-                  <div className="ms-2 me-auto">
-                    <div className="lead">作业负责人销记（作业负责人信息）</div>
-                  </div>
-                  <span className="text-muted">{data.report_timeline}</span>
-                </li>
-                <li className="list-group-item d-flex justify-content-between align-items-start">
-                  <div className="ms-2 me-auto">
-                    <div className="lead">调度签字（调度信息）</div>
-                  </div>
-                  <span className="text-muted">
-                    {data.review_p_dd_timeline}
-                  </span>
-                </li>
+                {!!data.report_timeline && (
+                  <li className="list-group-item d-flex justify-content-between align-items-start">
+                    <div className="ms-2 me-auto">
+                      <div className="lead">
+                        作业负责人销记（作业负责人信息）
+                      </div>
+                    </div>
+                    <span className="text-muted">{data.report_timeline}</span>
+                  </li>
+                )}
+                {!!data.review_p_bz_timeline && (
+                  <li className="list-group-item d-flex justify-content-between align-items-start">
+                    <div className="ms-2 me-auto">
+                      <div className="lead">监控班组签字</div>
+                    </div>
+                    <span className="text-muted">
+                      {data.review_p_bz_timeline}
+                    </span>
+                  </li>
+                )}
+                {!!data.review_p_dd_timeline && (
+                  <li className="list-group-item d-flex justify-content-between align-items-start">
+                    <div className="ms-2 me-auto">
+                      <div className="lead">调度签字（调度信息）</div>
+                    </div>
+                    <span className="text-muted">
+                      {data.review_p_dd_timeline}
+                    </span>
+                  </li>
+                )}
               </ul>
             </div>
           </div>

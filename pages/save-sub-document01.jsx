@@ -70,7 +70,7 @@ export default function SaveSubDocument01({ data }) {
     fetch(`/api/harold/detail/${id}?option=subdoc01`)
       .then((response) => response.json())
       .then((data) => {
-        let ll = data.subdoc01.map((current, index) => {
+        let ll = eval(data.subdoc01).map((current, index) => {
           return { id: index, ...current };
         });
         setSubdoc01List(ll);
