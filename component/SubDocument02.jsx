@@ -24,7 +24,7 @@ export default function SubDocument02({
   option,
   id,
 }) {
-  const handleReviewPgz = (event) => {
+  const handlePgz = (event) => {
     let result = event.target.value;
     let subid = event.target.getAttribute('data-id');
     fetch(`/api/harold/detail/${id}?option=review-p_gz-subdoc02`, {
@@ -34,7 +34,27 @@ export default function SubDocument02({
       },
       body: JSON.stringify({
         id: subid,
-        review_p_gz: result,
+        review_p_bjgnsy: result,
+      }),
+    })
+      .then((response) => {
+        if (response.status === 200) alert('数据已提交至服务器，请稍后查看。');
+        else throw new Error('操作失败');
+      })
+      .catch((err) => alert(err));
+  };
+  const handleQc = (event) => {
+    let result = event.target.value;
+    let subid = event.target.getAttribute('data-id');
+    fetch(`/api/harold/detail/${id}?option=review-qc-subdoc02`, {
+      method: 'PUT',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: subid,
+        p_bjgnsy: result,
+        review_qc: '',
       }),
     })
       .then((response) => {
@@ -151,7 +171,7 @@ export default function SubDocument02({
                   className="form-control form-control-sm"
                   data-id={current.id}
                   defaultValue={current.review_p_gz}
-                  onChange={handleReviewPgz}
+                  onChange={handlePgz}
                 >
                   <option value="">监控结果</option>
                   <option value="确认">确认</option>
@@ -161,20 +181,24 @@ export default function SubDocument02({
             </td>
             <td width="4%" className="text-center align-middle">
               {current.p_bjgnsy}
-              <select
-                className="form-control form-control-sm"
-                data-id={current.id}
-              >
-                <option value="">部件功能是否正常</option>
-                <option value="是">是</option>
-                <option value="否">否</option>
-              </select>
+              {!!(option.indexOf('qc') + 1) && (
+                <select
+                  className="form-control form-control-sm"
+                  data-id={current.id}
+                  defaultValue={current.p_bjgnsy}
+                  onChange={handleQc}
+                >
+                  <option value="">部件功能是否正常</option>
+                  <option value="是">是</option>
+                  <option value="否">否</option>
+                </select>
+              )}
             </td>
             <td width="6%" className="text-center align-middle">
               {current.qc}
             </td>
             <td width="6%" className="text-center align-middle">
-              {current.duty}
+              {current.p_jsy}
               <select
                 className="form-control form-control-sm"
                 data-id={current.id}

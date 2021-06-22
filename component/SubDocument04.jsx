@@ -1,6 +1,21 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+
+SubDocument04.propTypes = {
+  subdoc04_list: PropTypes.array,
+  handleRemove: PropTypes.func,
+  option: PropTypes.array,
+  id: PropTypes.string,
+};
+
+SubDocument04.defaultProps = {
+  subdoc04_list: [],
+  handleRemove: () => {},
+  option: [],
+  id: '0',
+};
 
 export default function SubDocument04({
   subdoc04_list,
@@ -11,7 +26,7 @@ export default function SubDocument04({
   const handlePbz = (event) => {
     let result = event.target.value;
     let subid = event.target.getAttribute('data-id');
-    if (!!result) {
+    if (result) {
       fetch(`/api/harold/detail/${id}?option=review-p_bz-subdoc04`, {
         method: 'PUT',
         headers: {
@@ -50,6 +65,25 @@ export default function SubDocument04({
         })
         .catch((err) => alert(err));
     }
+  };
+  const handleQc = (event) => {
+    let result = event.target.value;
+    let subid = event.target.getAttribute('data-id');
+    fetch(`/api/harold/detail/${id}?option=review-qc-subdoc04`, {
+      method: 'PUT',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: subid,
+        review_qc: result,
+      }),
+    })
+      .then((response) => {
+        if (response.status === 200) alert('数据已提交至服务器，请稍后查看。');
+        else throw new Error('操作失败');
+      })
+      .catch((err) => alert(err));
   };
 
   return (
@@ -162,7 +196,21 @@ export default function SubDocument04({
               )}
             </td>
             <td>{current.p_bz || ''}</td>
-            <td>{current.qc || ''}</td>
+            <td>
+              {current.qc || ''}
+              {!!(option.indexOf('qc') + 1) && (
+                <select
+                  className="form-control form-control-sm"
+                  data-id={current.id}
+                  defaultValue={current.review_qc}
+                  onChange={handleQc}
+                >
+                  <option value="">监控结果</option>
+                  <option value="确认">确认</option>
+                  <option value="未确认">未确认</option>
+                </select>
+              )}
+            </td>
             <td>{current.remark || ''}</td>
           </tr>
         ))}

@@ -43,6 +43,26 @@ export default function SubDocument03({
       })
       .catch((err) => alert(err));
   };
+  const handleQc = (event) => {
+    let result = event.target.value;
+    let subid = event.target.getAttribute('data-id');
+    fetch(`/api/harold/detail/${id}?option=review-qc-subdoc03`, {
+      method: 'PUT',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: subid,
+        p_bjgnsy: result,
+        review_qc: '',
+      }),
+    })
+      .then((response) => {
+        if (response.status === 200) alert('数据已提交至服务器，请稍后查看。');
+        else throw new Error('操作失败');
+      })
+      .catch((err) => alert(err));
+  };
 
   return (
     <table className="table table-bordered" style={{ border: '2px solid' }}>
@@ -166,17 +186,21 @@ export default function SubDocument03({
             </td>
             <td width="4%" className="text-center align-middle">
               {current.p_bjgnsy}
-              <select
-                className="form-control form-control-sm"
-                data-id={current.id}
-              >
-                <option value="">部件功能是否正常</option>
-                <option value="是">是</option>
-                <option value="否">否</option>
-              </select>
+              {!!(option.indexOf('qc') + 1) && (
+                <select
+                  className="form-control form-control-sm"
+                  data-id={current.id}
+                  defaultValue={current.review_qc}
+                  onChange={handleQc}
+                >
+                  <option value="">部件功能是否正常</option>
+                  <option value="是">是</option>
+                  <option value="否">否</option>
+                </select>
+              )}
             </td>
             <td width="6%" className="text-center align-middle">
-              {current.qc}
+              {current.qc || ''}
             </td>
             <td width="6%" className="text-center align-middle">
               {current.duty}

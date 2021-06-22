@@ -1,6 +1,21 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+
+SubDocument01.propTypes = {
+  subdoc01_list: PropTypes.array,
+  handleRemove: PropTypes.func,
+  option: PropTypes.array,
+  id: PropTypes.string,
+};
+
+SubDocument01.defaultProps = {
+  subdoc01_list: [],
+  handleRemove: () => {},
+  option: [],
+  id: '0',
+};
 
 export default function SubDocument01({
   subdoc01_list,
@@ -21,6 +36,25 @@ export default function SubDocument01({
         duty: result ? '测试监控人' : '', //
         p_bz: result ? '测试班组' : '', //
         review_p_bz: result,
+      }),
+    })
+      .then((response) => {
+        if (response.status === 200) alert('数据已提交至服务器，请稍后查看。');
+        else throw new Error('操作失败');
+      })
+      .catch((err) => alert(err));
+  };
+  const handleQc = (event) => {
+    let result = event.target.value;
+    let subid = event.target.getAttribute('data-id');
+    fetch(`/api/harold/detail/${id}?option=review-qc-subdoc01`, {
+      method: 'PUT',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: subid,
+        review_qc: result, // event.target.value === '确认' ? auth.name : '未确认'
       }),
     })
       .then((response) => {
@@ -141,7 +175,21 @@ export default function SubDocument01({
               )}
             </td>
             <td>{current.p_bz || ''}</td>
-            <td>{current.qc || ''}</td>
+            <td>
+              {current.qc || ''}
+              {!!(option.indexOf('qc') + 1) && (
+                <select
+                  className="form-control form-control-sm"
+                  data-id={current.id}
+                  defaultValue={current.review_qc}
+                  onChange={handleQc}
+                >
+                  <option value="">监控结果</option>
+                  <option value="确认">确认</option>
+                  <option value="未确认">未确认</option>
+                </select>
+              )}
+            </td>
             <td>{current.remark || ''}</td>
           </tr>
         ))}

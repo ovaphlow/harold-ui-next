@@ -77,7 +77,6 @@ export default function Detail({ data }) {
   };
 
   React.useEffect(() => {
-    console.info(data.status);
     dispatch({
       type: 'set',
       payload: {
@@ -187,6 +186,12 @@ export default function Detail({ data }) {
                     </a>
                   )}
                 {/* 质检签字 */}
+                {(data.status === '监控班组签字' ||
+                  data.status === '工长签字') && (
+                  <a href={`/review-qc?id=${id}`} className="btn btn-success">
+                    质检签字
+                  </a>
+                )}
                 {/* (2,3)值班干部签字 */}
                 {/* 调度签字 */}
                 {/* {data.status === '技术员签字' && ( */}
@@ -262,6 +267,26 @@ export default function Detail({ data }) {
                     </div>
                     <span className="text-muted">
                       {data.review_p_bz_timeline}
+                    </span>
+                  </li>
+                )}
+                {!!data.review_p_gz_timeline && (
+                  <li className="list-group-item d-flex justify-content-between align-items-start">
+                    <div className="ms-2 me-auto">
+                      <div className="lead">工长签字</div>
+                    </div>
+                    <span className="text-muted">
+                      {data.review_p_gz_timeline}
+                    </span>
+                  </li>
+                )}
+                {!!data.review_qc_timeline && (
+                  <li className="list-group-item d-flex justify-content-between align-items-start">
+                    <div className="ms-2 me-auto">
+                      <div className="lead">质检签字</div>
+                    </div>
+                    <span className="text-muted">
+                      {data.review_qc_timeline}
                     </span>
                   </li>
                 )}
