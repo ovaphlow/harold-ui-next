@@ -11,45 +11,23 @@ export default function SubDocument01({
   const handlePbz = (event) => {
     let result = event.target.value;
     let subid = event.target.getAttribute('data-id');
-    if (!!result) {
-      fetch(`/api/harold/detail/${id}?option=review-p_bz-subdoc01`, {
-        method: 'PUT',
-        headers: {
-          'content-type': 'application/json',
-        },
-        body: JSON.stringify({
-          id: subid,
-          duty: '测试监控人', //
-          p_bz: '测试班组', //
-          review_p_bz: result,
-        }),
+    fetch(`/api/harold/detail/${id}?option=review-p_bz-subdoc01`, {
+      method: 'PUT',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: subid,
+        duty: result ? '测试监控人' : '', //
+        p_bz: result ? '测试班组' : '', //
+        review_p_bz: result,
+      }),
+    })
+      .then((response) => {
+        if (response.status === 200) alert('数据已提交至服务器，请稍后查看。');
+        else throw new Error('操作失败');
       })
-        .then((response) => {
-          if (response.status === 200)
-            alert('数据已提交至服务器，请稍后查看。');
-          else throw new Error('操作失败');
-        })
-        .catch((err) => alert(err));
-    } else {
-      fetch(`/api/harold/detail/${id}?option=review-p_bz-subdoc01`, {
-        method: 'PUT',
-        headers: {
-          'content-type': 'application/json',
-        },
-        body: JSON.stringify({
-          id: subid,
-          duty: '', //
-          p_bz: '', //
-          review_p_bz: '',
-        }),
-      })
-        .then((response) => {
-          if (response.status === 200)
-            alert('数据已提交至服务器，请稍后查看。');
-          else throw new Error('操作失败');
-        })
-        .catch((err) => alert(err));
-    }
+      .catch((err) => alert(err));
   };
 
   return (

@@ -438,6 +438,7 @@ export default function SaveSubDocument02({ data }) {
 export async function getServerSideProps(context) {
   const { id } = context.query;
 
+  // eslint-disable-next-line
   const response = await fetch(`${process.env.gateway}/api/harold/${id}`);
   const data = await response.json();
 

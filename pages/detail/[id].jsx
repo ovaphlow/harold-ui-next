@@ -77,6 +77,7 @@ export default function Detail({ data }) {
   };
 
   React.useEffect(() => {
+    console.info(data.status);
     dispatch({
       type: 'set',
       payload: {
@@ -164,7 +165,8 @@ export default function Detail({ data }) {
                   )}
                 {/* (1,4)监控班组签字 */}
                 {data.status === '作业负责人销记' &&
-                  data.subdoc01.toString().length > 2 && (
+                  (data.subdoc01.toString().length > 2 ||
+                    data.subdoc04.toString().length > 2) && (
                     <a
                       href={`/review-p_bz?id=${id}`}
                       className="btn btn-success"
@@ -173,6 +175,17 @@ export default function Detail({ data }) {
                     </a>
                   )}
                 {/* (2,3)工长签字 */}
+                {(data.status === '作业负责人销记' ||
+                  data.status === '监控班组签字') &&
+                  (data.subdoc02.toString().length > 2 ||
+                    data.subdoc03.toString().length > 2) && (
+                    <a
+                      href={`/review-p_gz?id=${id}`}
+                      className="btn btn-success"
+                    >
+                      工长签字
+                    </a>
+                  )}
                 {/* 质检签字 */}
                 {/* (2,3)值班干部签字 */}
                 {/* 调度签字 */}
@@ -275,6 +288,7 @@ export default function Detail({ data }) {
 export async function getServerSideProps(context) {
   const { id } = context.query;
 
+  // eslint-disable-next-line
   const response = await fetch(`${process.env.gateway}/api/harold/${id}`);
   const data = await response.json();
 

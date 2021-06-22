@@ -6,7 +6,7 @@ export default async (req, res) => {
   try {
     if (req.method === 'POST') {
       let response = await superagent
-        .post(`${process.env.gateway}${req.url}`)
+        .post(`${process.env.gateway}${req.url}`) // eslint-disable-line
         .send(req.body)
         .set('accept', 'json');
       res.status(200).json(response.body);

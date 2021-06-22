@@ -1,9 +1,49 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import dayjs from 'dayjs';
 
-export default function SubDocument03({ subdoc03_list, handleRemove }) {
+SubDocument03.propTypes = {
+  subdoc03_list: PropTypes.array,
+  handleRemove: PropTypes.func,
+  option: PropTypes.array,
+  id: PropTypes.string,
+};
+
+SubDocument03.defaultProps = {
+  subdoc03_list: [],
+  handleRemove: () => {},
+  option: [],
+  id: '0',
+};
+
+export default function SubDocument03({
+  subdoc03_list,
+  handleRemove,
+  option,
+  id,
+}) {
+  const handleReviewPgz = (event) => {
+    let result = event.target.value;
+    let subid = event.target.getAttribute('data-id');
+    fetch(`/api/harold/detail/${id}?option=review-p_gz-subdoc03`, {
+      method: 'PUT',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: subid,
+        review_p_gz: result,
+      }),
+    })
+      .then((response) => {
+        if (response.status === 200) alert('数据已提交至服务器，请稍后查看。');
+        else throw new Error('操作失败');
+      })
+      .catch((err) => alert(err));
+  };
+
   return (
     <table className="table table-bordered" style={{ border: '2px solid' }}>
       <tbody>
@@ -111,14 +151,18 @@ export default function SubDocument03({ subdoc03_list, handleRemove }) {
             </td>
             <td width="6%" className="text-center align-middle">
               {current.leader}
-              <select
-                className="form-control form-control-sm"
-                data-id={current.id}
-              >
-                <option value="">监控结果</option>
-                <option value="确认">确认</option>
-                <option value="未确认">未确认</option>
-              </select>
+              {!!(option.indexOf('p_gz') + 1) && (
+                <select
+                  className="form-control form-control-sm"
+                  data-id={current.id}
+                  defaultValue={current.review_p_gz}
+                  onChange={handleReviewPgz}
+                >
+                  <option value="">监控结果</option>
+                  <option value="确认">确认</option>
+                  <option value="未确认">未确认</option>
+                </select>
+              )}
             </td>
             <td width="4%" className="text-center align-middle">
               {current.p_bjgnsy}

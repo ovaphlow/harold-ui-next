@@ -6,7 +6,7 @@ export default async (req, res) => {
   try {
     if (req.method === 'GET') {
       let url = [
-        process.env.gateway,
+        process.env.gateway, // eslint-disable-line
         '/api/harold/',
         req.query.id,
         '?option=',
@@ -16,7 +16,7 @@ export default async (req, res) => {
       res.status(response.status).send(response.body);
     } else if (req.method === 'PUT') {
       let url = [
-        process.env.gateway,
+        process.env.gateway, // eslint-disable-line
         '/api/harold/',
         req.query.id,
         '?option=',

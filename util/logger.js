@@ -1,4 +1,4 @@
-const bunyan = require('bunyan');
+const bunyan = require('bunyan'); // eslint-disable-line
 
 const logger = bunyan.createLogger({
   name: 'harold',
@@ -14,4 +14,4 @@ const logger = bunyan.createLogger({
   ],
 });
 
-module.exports = logger;
+module.exports = logger; // eslint-disable-line
