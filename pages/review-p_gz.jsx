@@ -8,16 +8,10 @@ import SubDocument02 from '../component/SubDocument02';
 import SubDocument03 from '../component/SubDocument03';
 
 ReviewPgz.propTypes = {
-  subdoc02: PropTypes.array,
-  subdoc03: PropTypes.array,
+  data: PropTypes.object.isRequired,
 };
 
-ReviewPgz.defaultProps = {
-  subdoc02: [],
-  subdoc03: [],
-};
-
-export default function ReviewPgz({ subdoc01, subdoc02, subdoc03, subdoc04 }) {
+export default function ReviewPgz({ data }) {
   const [subdoc02_list, setSubdoc02List] = React.useState([]);
   const [subdoc03_list, setSubdoc03List] = React.useState([]);
   const router = useRouter();
@@ -39,18 +33,18 @@ export default function ReviewPgz({ subdoc01, subdoc02, subdoc03, subdoc04 }) {
   };
 
   React.useEffect(() => {
-    let ll = eval(subdoc02.subdoc02).map((current, index) => {
+    let ll = eval(data.subdoc02).map((current, index) => {
       return { id: index, ...current };
     });
     setSubdoc02List(ll);
-  }, [subdoc02]);
+  }, [data]);
 
   React.useEffect(() => {
-    let ll = eval(subdoc03.subdoc03).map((current, index) => {
+    let ll = eval(data.subdoc03).map((current, index) => {
       return { id: index, ...current };
     });
     setSubdoc03List(ll);
-  }, [subdoc03]);
+  }, [data]);
 
   return (
     <div className="d-flex flex-column h-100 w-100">
@@ -119,11 +113,8 @@ export async function getServerSideProps(context) {
   // eslint-disable-next-line
   const url = [process.env.gateway, '/api/harold/', id];
 
-  const response = await fetch(`${url.join('')}?option=subdoc02`);
-  const subdoc02 = await response.json();
+  const response = await fetch(`${url.join('')}`);
+  const data = await response.json();
 
-  const response3 = await fetch(`${url.join('')}?option=subdoc03`);
-  const subdoc03 = await response3.json();
-
-  return { props: { subdoc02, subdoc03 } };
+  return { props: { data } };
 }

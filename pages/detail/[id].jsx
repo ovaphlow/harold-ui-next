@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 
@@ -6,6 +7,10 @@ import Footer from '../../component/Footer';
 import Navbar from '../../component/Navbar';
 import { reducer } from '../../util/miscellaneous';
 import { Form } from './index';
+
+Detail.propTypes = {
+  data: PropTypes.object.isRequired,
+};
 
 export default function Detail({ data }) {
   const [document, dispatch] = React.useReducer(reducer, data);
@@ -175,16 +180,13 @@ export default function Detail({ data }) {
                   )}
                 {/* (2,3)工长签字 */}
                 {(data.status === '作业负责人销记' ||
-                  data.status === '监控班组签字') &&
-                  (data.subdoc02.toString().length > 2 ||
-                    data.subdoc03.toString().length > 2) && (
-                    <a
-                      href={`/review-p_gz?id=${id}`}
-                      className="btn btn-success"
-                    >
-                      工长签字
-                    </a>
-                  )}
+                  (data.status === '监控班组签字' &&
+                    (data.subdoc02.toString().length > 2 ||
+                      data.subdoc03.toString().length > 2))) && (
+                  <a href={`/review-p_gz?id=${id}`} className="btn btn-success">
+                    工长签字（检查判断条件）
+                  </a>
+                )}
                 {/* 质检签字 */}
                 {(data.status === '监控班组签字' ||
                   data.status === '工长签字') && (
@@ -193,12 +195,25 @@ export default function Detail({ data }) {
                   </a>
                 )}
                 {/* (2,3)值班干部签字 */}
+                {data.status === '质检签字' &&
+                  (data.subdoc02.toString().length > 2 ||
+                    data.subdoc03.toString().length > 2) && (
+                    <a
+                      href={`/review-p_jsy?id=${id}`}
+                      className="btn btn-success"
+                    >
+                      值班干部签字
+                    </a>
+                  )}
                 {/* 调度签字 */}
-                {/* {data.status === '技术员签字' && ( */}
-                <a href={`/review-p_dd?id=${id}`} className="btn btn-success">
-                  调度签字（未判断）
-                </a>
-                {/* )} */}
+                {(data.status === '质检签字' ||
+                  (data.status === '值班干部签字' &&
+                    (data.subdoc02.toString().length > 2 ||
+                      data.subdoc03.toString.length > 2))) && (
+                  <a href={`/review-p_dd?id=${id}`} className="btn btn-success">
+                    调度签字
+                  </a>
+                )}
               </div>
             </div>
           </div>
@@ -287,6 +302,16 @@ export default function Detail({ data }) {
                     </div>
                     <span className="text-muted">
                       {data.review_qc_timeline}
+                    </span>
+                  </li>
+                )}
+                {!!data.review_p_jsy_timeline && (
+                  <li className="list-group-item d-flex justify-content-between align-items-start">
+                    <div className="ms-2 me-auto">
+                      <div className="lead">值班干部签字</div>
+                    </div>
+                    <span className="text-muted">
+                      {data.review_p_jsy_timeline}
                     </span>
                   </li>
                 )}

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 
 import Footer from '../component/Footer';
@@ -6,7 +7,11 @@ import Navbar from '../component/Navbar';
 import SubDocument01 from '../component/SubDocument01';
 import SubDocument04 from '../component/SubDocument04';
 
-export default function ReviewPbz({ subdoc01, subdoc04 }) {
+ReviewPbz.propTypes = {
+  data: PropTypes.object.isRequired,
+};
+
+export default function ReviewPbz({ data }) {
   const router = useRouter();
   const { id } = router.query;
   const [subdoc01_list, setSubdoc01List] = React.useState([]);
@@ -28,18 +33,18 @@ export default function ReviewPbz({ subdoc01, subdoc04 }) {
   };
 
   React.useEffect(() => {
-    let ll = eval(subdoc01.subdoc01).map((current, index) => {
+    let ll = eval(data.subdoc01).map((current, index) => {
       return { id: index, ...current };
     });
     setSubdoc01List(ll);
-  }, [subdoc01]);
+  }, [data]);
 
   React.useEffect(() => {
-    let ll = eval(subdoc04.subdoc04).map((current, index) => {
+    let ll = eval(data.subdoc04).map((current, index) => {
       return { id: index, ...current };
     });
     setSubdoc04List(ll);
-  }, [subdoc04]);
+  }, [data]);
 
   return (
     <div className="d-flex flex-column h-100 w-100">
@@ -108,11 +113,8 @@ export async function getServerSideProps(context) {
   // eslint-disable-next-line
   const url = [process.env.gateway, '/api/harold/', id];
 
-  const response = await fetch(`${url.join('')}?option=subdoc01`);
-  const subdoc01 = await response.json();
+  const response = await fetch(`${url.join('')}`);
+  const data = await response.json();
 
-  const response4 = await fetch(`${url.join('')}?option=subdoc04`);
-  const subdoc04 = await response4.json();
-
-  return { props: { subdoc01, subdoc04 } };
+  return { props: { data } };
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import dayjs from 'dayjs';
 
@@ -20,6 +21,10 @@ const initial_subdoc02 = {
   sn2: '',
   p_bjaz: '是',
   operator: '',
+};
+
+SaveSubDocument02.propTypes = {
+  data: PropTypes.object.isRequired,
 };
 
 export default function SaveSubDocument02({ data }) {

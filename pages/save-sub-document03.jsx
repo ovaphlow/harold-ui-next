@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import dayjs from 'dayjs';
 
@@ -22,6 +23,10 @@ const initial_subdoc03 = {
   p_bjaz: '是',
   operator: '',
 };
+
+SaveSubDocument03.propTypes = {
+  data: PropTypes.object.isRequired,
+}
 
 export default function SaveSubDocument03({ data }) {
   const [subdoc03, dispatch] = React.useReducer(reducer, initial_subdoc03);

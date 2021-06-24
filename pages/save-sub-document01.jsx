@@ -1,6 +1,7 @@
-import dayjs from 'dayjs';
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
+import dayjs from 'dayjs';
 
 import Footer from '../component/Footer';
 import Navbar from '../component/Navbar';
@@ -20,6 +21,10 @@ const initial_subdoc = {
   dept: '',
   operator: '',
   remark: '无',
+};
+
+SaveSubDocument01.propTypes = {
+  data: PropTypes.object.isRequired,
 };
 
 export default function SaveSubDocument01({ data }) {

@@ -1,9 +1,20 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
 
 import Footer from '../../component/Footer';
 import Navbar from '../../component/Navbar';
 import { reducer } from '../../util/miscellaneous';
+
+Form.propTypes = {
+  data: PropTypes.object,
+  dispatch: PropTypes.func,
+};
+
+Form.defaultProps = {
+  data: {},
+  dispatch: () => {},
+};
 
 export function Form({ data, dispatch }) {
   return (

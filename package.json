@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "format": "prettier --write component pages styles util",
-    "lint": "eslint component/**/*.jsx pages/**/*.js pages/**/*.jsx util/**/*.js"
+    "lint": "eslint component/**/*.jsx pages/*.jsx pages/**/*.jsx util/**/*.js"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.35",

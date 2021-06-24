@@ -1,9 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 
 import Footer from '../component/Footer';
 import Navbar from '../component/Navbar';
 import { reducer } from '../util/miscellaneous';
+
+ReviewPdd.propTypes = {
+  data: PropTypes.object.isRequired,
+};
 
 export default function ReviewPdd({ data }) {
   const [document, dispatch] = React.useReducer(reducer, data);

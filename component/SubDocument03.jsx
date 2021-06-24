@@ -63,6 +63,25 @@ export default function SubDocument03({
       })
       .catch((err) => alert(err));
   };
+  const handlePjsy = (event) => {
+    let result = event.target.value;
+    let subid = event.target.getAttribute('data-id');
+    fetch(`/api/harold/detail/${id}?option=review-p_jsy-subdoc03`, {
+      method: 'PUT',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: subid,
+        review_p_jsy: result === '确认' ? result : '',
+      }),
+    })
+      .then((response) => {
+        if (response.status === 200) alert('数据已提交至服务器，请稍后查看。');
+        else throw new Error('操作失败');
+      })
+      .catch((err) => alert(err));
+  };
 
   return (
     <table className="table table-bordered" style={{ border: '2px solid' }}>
@@ -200,18 +219,22 @@ export default function SubDocument03({
               )}
             </td>
             <td width="6%" className="text-center align-middle">
-              {current.qc || ''}
+              {current.review_qc || ''}
             </td>
             <td width="6%" className="text-center align-middle">
-              {current.duty}
-              <select
-                className="form-control form-control-sm"
-                data-id={current.id}
-              >
-                <option value="">监控结果</option>
-                <option value="确认">确认</option>
-                <option value="未确认">未确认</option>
-              </select>
+              {current.review_p_jsy}
+              {!!(option.indexOf('p_jsy') + 1) && (
+                <select
+                  className="form-control form-control-sm"
+                  data-id={current.id}
+                  defaultValue={current.p_jsy}
+                  onChange={handlePjsy}
+                >
+                  <option value="">监控结果</option>
+                  <option value="确认">确认</option>
+                  <option value="未确认">未确认</option>
+                </select>
+              )}
             </td>
           </tr>
         ))}
