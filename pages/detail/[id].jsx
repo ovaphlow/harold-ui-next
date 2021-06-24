@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 
 import Footer from '../../component/Footer';
 import Navbar from '../../component/Navbar';
-import { reducer } from '../../util/miscellaneous';
+import { reducer, PROGRESS } from '../../util/miscellaneous';
 import { Form } from './index';
 
 Detail.propTypes = {
@@ -221,6 +221,8 @@ export default function Detail({ data }) {
             <div className="card-header lead">
               审核阶段：
               {data.status}
+              {'-->'}
+              {PROGRESS[PROGRESS.indexOf(data.status) + 1]}
             </div>
             <div className="card-body">
               <ul className="list-group list-group-flush">
