@@ -16,7 +16,7 @@ export default function ReviewPdd({ data }) {
   const { id } = router.query;
   const handleReviewPdd = (event) => {
     event.target.disabled = true;
-    fetch(`/api/harold/detail/${id}?option=review-p_dd`, {
+    fetch(`/api/pitchfork/detail/${id}?option=review-p_dd`, {
       method: 'PUT',
       headers: {
         'content-type': 'application/json',
@@ -91,7 +91,7 @@ export async function getServerSideProps(context) {
   const { id } = context.query;
 
   // eslint-disable-next-line
-  const response = await fetch(`${process.env.gateway}/api/harold/${id}`);
+  const response = await fetch(`${process.env.gateway}/api/pitchfork/${id}`);
   const data = await response.json();
 
   return { props: { data } };

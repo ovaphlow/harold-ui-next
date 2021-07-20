@@ -23,7 +23,7 @@ export default function ReviewQc({ data }) {
   const handleReviewQc = () => {
     // todo: 检查页面中所有select元素是否选择合理的选项（确认/未确认）
 
-    fetch(`/api/harold/detail/${id}?option=review-qc`, {
+    fetch(`/api/pitchfork/detail/${id}?option=review-qc`, {
       method: 'PUT',
       headers: {
         'content-type': 'application/json',
@@ -153,7 +153,7 @@ export default function ReviewQc({ data }) {
 export async function getServerSideProps(context) {
   const { id } = context.query;
   // eslint-disable-next-line
-  const url = [process.env.gateway, '/api/harold/', id];
+  const url = [process.env.gateway, '/api/pitchfork/', id];
 
   const response = await fetch(`${url.join('')}`);
   const data = await response.json();

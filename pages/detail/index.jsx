@@ -298,12 +298,12 @@ export default function Detail() {
     setOption(event.target.getAttribute('data-option'));
   };
   const handleSubmit = () => {
-    fetch('/api/harold/detail', {
+    fetch('/api/pitchfork/detail', {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify({ ...data, tag: option }),
     })
       .then((response) => {
         if (response.status === 200)

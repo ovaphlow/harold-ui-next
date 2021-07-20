@@ -26,7 +26,7 @@ const initial_subdoc03 = {
 
 SaveSubDocument03.propTypes = {
   data: PropTypes.object.isRequired,
-}
+};
 
 export default function SaveSubDocument03({ data }) {
   const [subdoc03, dispatch] = React.useReducer(reducer, initial_subdoc03);
@@ -40,7 +40,7 @@ export default function SaveSubDocument03({ data }) {
     node_list.forEach((current) => {
       if (current.checked) ll.push(current.value);
     });
-    fetch(`/api/harold/detail/${id}?option=report-subdoc03`, {
+    fetch(`/api/pitchfork/detail/${id}?option=report-subdoc03`, {
       method: 'PUT',
       headers: {
         'content-type': 'application/json',
@@ -57,7 +57,7 @@ export default function SaveSubDocument03({ data }) {
   };
   const handleRemove = (index) => {
     if (!confirm('确定要删除所选数据？')) return;
-    fetch(`/api/harold/detail/${id}?option=remove-subdoc03`, {
+    fetch(`/api/pitchfork/detail/${id}?option=remove-subdoc03`, {
       method: 'PUT',
       headers: {
         'content-type': 'application/json',
@@ -73,7 +73,7 @@ export default function SaveSubDocument03({ data }) {
       .catch((err) => alert(err));
   };
   const fetchSubdoc03 = () => {
-    fetch(`/api/harold/detail/${id}?option=subdoc03`)
+    fetch(`/api/pitchfork/detail/${id}?option=subdoc03`)
       .then((response) => response.json())
       .then((data) => {
         let ll = eval(data.subdoc03).map((current, index) => {
@@ -462,7 +462,7 @@ export async function getServerSideProps(context) {
   const { id } = context.query;
 
   // eslint-disable-next-line
-  const response = await fetch(`${process.env.gateway}/api/harold/${id}`);
+  const response = await fetch(`${process.env.gateway}/api/pitchfork/${id}`);
   const data = await response.json();
 
   return { props: { data } };

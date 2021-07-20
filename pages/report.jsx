@@ -16,7 +16,7 @@ export default function Report() {
   const { id } = router.query;
   const handleReport = (event) => {
     event.target.disabled = true;
-    fetch(`/api/harold/detail/${id}?option=report`, {
+    fetch(`/api/pitchfork/detail/${id}?option=report`, {
       method: 'PUT',
       headers: {
         'content-type': 'application/json',

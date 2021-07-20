@@ -28,7 +28,7 @@ export default function Filter() {
       `&time_end=${filter.time_end}`,
       `&title=${filter.title}`,
     ];
-    fetch(`/api/harold/filter?option=default&${query.join('')}`)
+    fetch(`/api/pitchfork/filter?option=default&${query.join('')}`)
       .then((response) => response.json())
       .then((data) => {
         setDataList(data);
@@ -38,7 +38,7 @@ export default function Filter() {
   React.useEffect(() => {
     setDataList([]);
     if (option === '') {
-      fetch('/api/harold/filter')
+      fetch('/api/pitchfork/filter')
         .then((response) => response.json())
         .then((data) => {
           setDataList(data);
@@ -47,7 +47,7 @@ export default function Filter() {
     } else if (option === '我的申请') {
       //
     } else if (option === '已退回的申请') {
-      fetch('/api/harold/filter?option=reject')
+      fetch('/api/pitchfork/filter?option=reject')
         .then((response) => response.json())
         .then((data) => {
           setDataList(data);

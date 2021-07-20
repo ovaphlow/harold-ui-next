@@ -19,7 +19,7 @@ export default function Detail({ data }) {
   const handleReject = (event) => {
     event.target.disabled = true;
     let content = window.prompt('退回原因：');
-    fetch(`/api/harold/${id}?option=reject`, {
+    fetch(`/api/pitchfork/${id}?option=reject`, {
       method: 'PUT',
       headers: {
         'content-type': 'application/json',
@@ -37,7 +37,7 @@ export default function Detail({ data }) {
   };
   const handleSubmit = (event) => {
     event.target.disabled = true;
-    fetch(`/api/harold/detail/${id}`, {
+    fetch(`/api/pitchfork/detail/${id}`, {
       method: 'PUT',
       headers: {
         'content-type': 'application/json',
@@ -52,7 +52,7 @@ export default function Detail({ data }) {
   };
   const handleCheckPdd = (event) => {
     event.target.disabled = true;
-    fetch(`/api/harold/detail/${id}?option=check-p_dd`, { method: 'PUT' })
+    fetch(`/api/pitchfork/detail/${id}?option=check-p_dd`, { method: 'PUT' })
       .then((response) => {
         if (response.status === 200) alert('数据已提交至服务器，请稍后查看。');
         else throw new Error('操作失败');
@@ -61,7 +61,7 @@ export default function Detail({ data }) {
   };
   const handleCheckPzbsz = (event) => {
     event.target.disabled = true;
-    fetch(`/api/harold/detail/${id}?option=check-p_zbsz`, { method: 'PUT' })
+    fetch(`/api/pitchfork/detail/${id}?option=check-p_zbsz`, { method: 'PUT' })
       .then((response) => {
         if (response.status === 200) alert('数据已提交至服务器，请稍后查看。');
         else throw new Error('操作失败');
@@ -70,7 +70,7 @@ export default function Detail({ data }) {
   };
   const handleCheckPbz = (event) => {
     event.target.disabled = true;
-    fetch(`/api/harold/detail/${id}?option=check-p_bz`, { method: 'PUT' })
+    fetch(`/api/pitchfork/detail/${id}?option=check-p_bz`, { method: 'PUT' })
       .then((response) => {
         if (response.status === 200) alert('数据已提交至服务器，请稍后查看。');
         else throw new Error('操作失败');
@@ -341,7 +341,7 @@ export async function getServerSideProps(context) {
   const { id } = context.query;
 
   // eslint-disable-next-line
-  const response = await fetch(`${process.env.gateway}/api/harold/${id}`);
+  const response = await fetch(`${process.env.gateway}/api/pitchfork/${id}`);
   const data = await response.json();
 
   return { props: { data } };

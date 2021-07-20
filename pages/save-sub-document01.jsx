@@ -39,7 +39,7 @@ export default function SaveSubDocument01({ data }) {
     node_list.forEach((current) => {
       if (current.checked) ll.push(current.value);
     });
-    fetch(`/api/harold/detail/${id}?option=report-subdoc01`, {
+    fetch(`/api/pitchfork/detail/${id}?option=report-subdoc01`, {
       method: 'PUT',
       headers: {
         'content-type': 'application/json',
@@ -56,7 +56,7 @@ export default function SaveSubDocument01({ data }) {
   };
   const handleRemove = (index) => {
     if (!confirm('确定要删除所选数据？')) return;
-    fetch(`/api/harold/detail/${id}?option=remove-subdoc01`, {
+    fetch(`/api/pitchfork/detail/${id}?option=remove-subdoc01`, {
       method: 'PUT',
       headers: {
         'content-type': 'application/json',
@@ -72,7 +72,7 @@ export default function SaveSubDocument01({ data }) {
       .catch((err) => alert(err));
   };
   const fetchSubdoc01 = () => {
-    fetch(`/api/harold/detail/${id}?option=subdoc01`)
+    fetch(`/api/pitchfork/detail/${id}?option=subdoc01`)
       .then((response) => response.json())
       .then((data) => {
         let ll = eval(data.subdoc01).map((current, index) => {
@@ -467,7 +467,7 @@ export async function getServerSideProps(context) {
   const { id } = context.query;
 
   // eslint-disable-next-line
-  const response = await fetch(`${process.env.gateway}/api/harold/${id}`);
+  const response = await fetch(`${process.env.gateway}/api/pitchfork/${id}`);
   const data = await response.json();
 
   return { props: { data } };
