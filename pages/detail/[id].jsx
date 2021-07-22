@@ -149,19 +149,22 @@ export default function Detail({ data }) {
                     值班所长审核
                   </button>
                 )}
-                {data.p_zyxs.indexOf('班组') > -1 &&
+                {!!data.p_zyxs &&
+                  data.p_zyxs.indexOf('班组') > -1 &&
                   data.status === '值班所长审核' && (
                     <button className="btn btn-info" onClick={handleCheckPbz}>
                       班组签字
                     </button>
                   )}
-                {data.p_zyxs.indexOf('班组') > -1 &&
+                {!!data.p_zyxs &&
+                  data.p_zyxs.indexOf('班组') > -1 &&
                   data.status === '班组签字' && (
                     <a href={`/report?id=${id}`} className="btn btn-success">
                       作业负责人销记
                     </a>
                   )}
-                {data.p_zyxs.indexOf('班组') === -1 &&
+                {!!data.p_zyxs &&
+                  data.p_zyxs.indexOf('班组') === -1 &&
                   data.status === '值班所长审核' && (
                     <a href={`/report?id=${id}`} className="btn btn-success">
                       作业负责人销记
