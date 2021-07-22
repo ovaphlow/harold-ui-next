@@ -52,7 +52,11 @@ export default function Detail({ data }) {
   };
   const handleCheckPdd = (event) => {
     event.target.disabled = true;
-    fetch(`/api/pitchfork/detail/${id}?option=check-p_dd`, { method: 'PUT' })
+    fetch(`/api/pitchfork/detail/${id}?option=check-p_dd`, {
+      method: 'PUT',
+      headers: { 'content-type': 'application/json' },
+      body: '{}',
+    })
       .then((response) => {
         if (response.status === 200) alert('数据已提交至服务器，请稍后查看。');
         else throw new Error('操作失败');
@@ -61,7 +65,11 @@ export default function Detail({ data }) {
   };
   const handleCheckPzbsz = (event) => {
     event.target.disabled = true;
-    fetch(`/api/pitchfork/detail/${id}?option=check-p_zbsz`, { method: 'PUT' })
+    fetch(`/api/pitchfork/detail/${id}?option=check-p_zbsz`, {
+      method: 'PUT',
+      headers: { 'content-type': 'application/json' },
+      body: '{}',
+    })
       .then((response) => {
         if (response.status === 200) alert('数据已提交至服务器，请稍后查看。');
         else throw new Error('操作失败');
@@ -70,7 +78,11 @@ export default function Detail({ data }) {
   };
   const handleCheckPbz = (event) => {
     event.target.disabled = true;
-    fetch(`/api/pitchfork/detail/${id}?option=check-p_bz`, { method: 'PUT' })
+    fetch(`/api/pitchfork/detail/${id}?option=check-p_bz`, {
+      method: 'PUT',
+      headers: { 'content-type': 'application/json' },
+      body: '{}',
+    })
       .then((response) => {
         if (response.status === 200) alert('数据已提交至服务器，请稍后查看。');
         else throw new Error('操作失败');
