@@ -4,14 +4,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 SubDocument01.propTypes = {
-  subdoc01_list: PropTypes.array,
+  subdoc01_list: PropTypes.object,
   handleRemove: PropTypes.func,
   option: PropTypes.array,
   id: PropTypes.string,
 };
 
 SubDocument01.defaultProps = {
-  subdoc01_list: [],
+  subdoc01_list: {},
   handleRemove: () => {},
   option: [],
   id: '0',
@@ -72,13 +72,13 @@ export default function SubDocument01({
             普查项目
           </td>
           <td width="42%" colSpan="5" className="text-center align-middle">
-            {!!subdoc01_list.length && subdoc01_list[0].subject}
+            {subdoc01_list.subject}
           </td>
           <td width="15%" colSpan="2" className="text-center align-middle">
             批准文件号
           </td>
           <td width="35%" colSpan="4" className="text-center align-middle">
-            {!!subdoc01_list.length && subdoc01_list[0].sn}
+            {subdoc01_list.sn}
           </td>
         </tr>
         <tr>
@@ -86,13 +86,13 @@ export default function SubDocument01({
             实施普查车组
           </td>
           <td width="40%" colSpan="5" className="text-center align-middle">
-            {!!subdoc01_list.length && subdoc01_list[0].train}
+            {subdoc01_list.train}
           </td>
           <td width="10%" colSpan="2" className="text-center align-middle">
             实施普查日期
           </td>
           <td width="40%" colSpan="4" className="text-center align-middle">
-            {!!subdoc01_list.length && subdoc01_list[0].date}
+            {subdoc01_list.date}
           </td>
         </tr>
         <tr>
@@ -141,58 +141,59 @@ export default function SubDocument01({
           </td>
           <td className="text-center align-middle">备注</td>
         </tr>
-        {subdoc01_list.map((current) => (
-          <tr key={current.id}>
-            <td className="d-flex justify-content-between">
-              <span
-                className="text-danger"
-                onClick={() => handleRemove(current.id)}
-              >
-                <FontAwesomeIcon icon={faTrashAlt} fixedWidth />
-              </span>
-              {current.carriage}
-            </td>
-            <td>{current.position}</td>
-            <td>{current.time_begin}</td>
-            <td>{current.time_end}</td>
-            <td>{current.result}</td>
-            <td>{current.report}</td>
-            <td>{current.dept}</td>
-            <td>{current.operator}</td>
-            <td>
-              {current.duty || ''}
-              {!!(option.indexOf('p_bz') + 1) && (
-                <select
-                  className="form-control"
-                  data-id={current.id}
-                  defaultValue={current.review_p_bz}
-                  onChange={handlePbz}
+        {!!subdoc01_list.list &&
+          subdoc01_list.list.map((current, index) => (
+            <tr key={index}>
+              <td className="d-flex justify-content-between">
+                <span
+                  className="text-danger"
+                  onClick={() => handleRemove(index)}
                 >
-                  <option value="">监控结果</option>
-                  <option value="确认">确认</option>
-                  <option value="未确认">未确认</option>
-                </select>
-              )}
-            </td>
-            <td>{current.p_bz || ''}</td>
-            <td>
-              {current.qc || ''}
-              {!!(option.indexOf('qc') + 1) && (
-                <select
-                  className="form-control form-control-sm"
-                  data-id={current.id}
-                  defaultValue={current.review_qc}
-                  onChange={handleQc}
-                >
-                  <option value="">监控结果</option>
-                  <option value="确认">确认</option>
-                  <option value="未确认">未确认</option>
-                </select>
-              )}
-            </td>
-            <td>{current.remark || ''}</td>
-          </tr>
-        ))}
+                  <FontAwesomeIcon icon={faTrashAlt} fixedWidth />
+                </span>
+                {current.carriage}
+              </td>
+              <td>{current.position}</td>
+              <td>{current.time_begin}</td>
+              <td>{current.time_end}</td>
+              <td>{current.result}</td>
+              <td>{current.report}</td>
+              <td>{current.dept}</td>
+              <td>{current.operator}</td>
+              <td>
+                {current.duty || ''}
+                {!!(option.indexOf('p_bz') + 1) && (
+                  <select
+                    className="form-control"
+                    data-id={current.id}
+                    defaultValue={current.review_p_bz}
+                    onChange={handlePbz}
+                  >
+                    <option value="">监控结果</option>
+                    <option value="确认">确认</option>
+                    <option value="未确认">未确认</option>
+                  </select>
+                )}
+              </td>
+              <td>{current.p_bz || ''}</td>
+              <td>
+                {current.qc || ''}
+                {!!(option.indexOf('qc') + 1) && (
+                  <select
+                    className="form-control form-control-sm"
+                    data-id={current.id}
+                    defaultValue={current.review_qc}
+                    onChange={handleQc}
+                  >
+                    <option value="">监控结果</option>
+                    <option value="确认">确认</option>
+                    <option value="未确认">未确认</option>
+                  </select>
+                )}
+              </td>
+              <td>{current.remark || ''}</td>
+            </tr>
+          ))}
       </tbody>
     </table>
   );

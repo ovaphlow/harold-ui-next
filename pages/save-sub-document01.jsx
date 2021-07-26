@@ -29,7 +29,7 @@ SaveSubDocument01.propTypes = {
 
 export default function SaveSubDocument01({ data }) {
   const [subdoc, dispatch] = React.useReducer(reducer, initial_subdoc);
-  const [subdoc01_list, setSubdoc01List] = React.useState([]);
+  const [subdoc01_list, setSubdoc01List] = React.useState({});
   const router = useRouter();
   const { id } = router.query;
   const handleSubmit = (event) => {
@@ -37,14 +37,32 @@ export default function SaveSubDocument01({ data }) {
     let node_list = document.querySelectorAll('.form-check-input');
     let ll = [];
     node_list.forEach((current) => {
-      if (current.checked) ll.push(current.value);
+      if (current.checked)
+        ll.push({
+          carriage: current.value,
+          position: subdoc.position,
+          time_begin: subdoc.time_begin,
+          time_end: subdoc.time_end,
+          result: subdoc.result,
+          report: subdoc.report,
+          dept: subdoc.dept,
+          operator: subdoc.operator,
+          remark: subdoc.remark,
+        });
     });
+    let body = {
+      subject: subdoc.subject,
+      sn: subdoc.sn,
+      train: subdoc.train,
+      date: subdoc.date,
+      list: JSON.stringify(ll),
+    };
     fetch(`/api/pitchfork/detail/${id}?option=report-subdoc01`, {
       method: 'PUT',
       headers: {
         'content-type': 'application/json',
       },
-      body: JSON.stringify({ ...subdoc, carriage: ll.join(',') }),
+      body: JSON.stringify(body),
     })
       .then((response) => {
         if (response.status === 200) {
@@ -75,10 +93,13 @@ export default function SaveSubDocument01({ data }) {
     fetch(`/api/pitchfork/detail/${id}?option=subdoc01`)
       .then((response) => response.json())
       .then((data) => {
-        let ll = eval(data.subdoc01).map((current, index) => {
-          return { id: index, ...current };
+        setSubdoc01List({
+          subject: data.subject,
+          sn: data.sn,
+          train: data.train,
+          date: data.date,
+          list: eval(data.list),
         });
-        setSubdoc01List(ll);
       })
       .catch((err) => alert(err));
   };
