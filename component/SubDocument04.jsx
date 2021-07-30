@@ -4,14 +4,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 SubDocument04.propTypes = {
-  subdoc04_list: PropTypes.array,
+  subdoc04_list: PropTypes.object,
   handleRemove: PropTypes.func,
   option: PropTypes.array,
   id: PropTypes.string,
 };
 
 SubDocument04.defaultProps = {
-  subdoc04_list: [],
+  subdoc04_list: {},
   handleRemove: () => {},
   option: [],
   id: '0',
@@ -94,7 +94,7 @@ export default function SubDocument04({
             普查项目
           </td>
           <td colSpan="8" className="text-center align-middle">
-            {!!subdoc04_list.length && subdoc04_list[0].subject}
+            {subdoc04_list.subject}
           </td>
         </tr>
         <tr>
@@ -105,19 +105,19 @@ export default function SubDocument04({
             新
           </td>
           <td width="10%" className="text-center align-middle">
-            {!!subdoc04_list.length && subdoc04_list[0].version}
+            {subdoc04_list.version}
           </td>
           <td width="10%" className="text-center align-middle">
             旧
           </td>
           <td width="10%" className="text-center align-middle">
-            {!!subdoc04_list.length && subdoc04_list[0].version2}
+            {subdoc04_list.version2}
           </td>
           <td width="10%" colSpan="2" className="text-center align-middle">
             批准文件号
           </td>
           <td width="30%" colSpan="2" className="text-center align-middle">
-            {!!subdoc04_list.length && subdoc04_list[0].sn}
+            {subdoc04_list.sn}
           </td>
         </tr>
         <tr>
@@ -125,13 +125,13 @@ export default function SubDocument04({
             实施普查车组
           </td>
           <td width="40%" colSpan="4" className="text-center align-middle">
-            {!!subdoc04_list.length && subdoc04_list[0].train}
+            {subdoc04_list.train}
           </td>
           <td width="20%" colSpan="2" className="text-center align-middle">
             实施普查日期
           </td>
           <td width="30%" colSpan="2" className="text-center align-middle">
-            {!!subdoc04_list.length && subdoc04_list[0].date}
+            {subdoc04_list.date}
           </td>
         </tr>
         <tr>
@@ -165,55 +165,56 @@ export default function SubDocument04({
           </td>
           <td className="text-center align-middle">备注</td>
         </tr>
-        {subdoc04_list.map((current) => (
-          <tr key={current.id}>
-            <td className="d-flex justify-content-between">
-              <span
-                className="text-danger"
-                onClick={() => handleRemove(current.id)}
-              >
-                <FontAwesomeIcon icon={faTrashAlt} fixedWidth />
-              </span>
-              {current.carriage}
-            </td>
-            <td>{current.time_begin}</td>
-            <td>{current.time_end}</td>
-            <td>{current.dept}</td>
-            <td>{current.operator}</td>
-            <td>
-              {current.duty || ''}
-              {!!(option.indexOf('p_bz') + 1) && (
-                <select
-                  className="form-control"
-                  data-id={current.id}
-                  defaultValue={current.review_p_bz}
-                  onChange={handlePbz}
+        {!!subdoc04_list.list &&
+          subdoc04_list.list.map((current, index) => (
+            <tr key={index}>
+              <td className="d-flex justify-content-between">
+                <span
+                  className="text-danger"
+                  onClick={() => handleRemove(index)}
                 >
-                  <option value="">监控结果</option>
-                  <option value="确认">确认</option>
-                  <option value="未确认">未确认</option>
-                </select>
-              )}
-            </td>
-            <td>{current.p_bz || ''}</td>
-            <td>
-              {current.qc || ''}
-              {!!(option.indexOf('qc') + 1) && (
-                <select
-                  className="form-control form-control-sm"
-                  data-id={current.id}
-                  defaultValue={current.review_qc}
-                  onChange={handleQc}
-                >
-                  <option value="">监控结果</option>
-                  <option value="确认">确认</option>
-                  <option value="未确认">未确认</option>
-                </select>
-              )}
-            </td>
-            <td>{current.remark || ''}</td>
-          </tr>
-        ))}
+                  <FontAwesomeIcon icon={faTrashAlt} fixedWidth />
+                </span>
+                {current.carriage}
+              </td>
+              <td>{current.time_begin}</td>
+              <td>{current.time_end}</td>
+              <td>{current.dept}</td>
+              <td>{current.operator}</td>
+              <td>
+                {current.duty || ''}
+                {!!(option.indexOf('p_bz') + 1) && (
+                  <select
+                    className="form-control"
+                    data-id={index}
+                    defaultValue={current.review_p_bz}
+                    onChange={handlePbz}
+                  >
+                    <option value="">监控结果</option>
+                    <option value="确认">确认</option>
+                    <option value="未确认">未确认</option>
+                  </select>
+                )}
+              </td>
+              <td>{current.p_bz || ''}</td>
+              <td>
+                {current.qc || ''}
+                {!!(option.indexOf('qc') + 1) && (
+                  <select
+                    className="form-control form-control-sm"
+                    data-id={index}
+                    defaultValue={current.review_qc}
+                    onChange={handleQc}
+                  >
+                    <option value="">监控结果</option>
+                    <option value="确认">确认</option>
+                    <option value="未确认">未确认</option>
+                  </select>
+                )}
+              </td>
+              <td>{current.remark || ''}</td>
+            </tr>
+          ))}
       </tbody>
     </table>
   );

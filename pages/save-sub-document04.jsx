@@ -30,20 +30,37 @@ export default function SaveSubDocument04({ data }) {
   const [subdoc04, dispatch] = React.useReducer(reducer, initial_subdoc04);
   const router = useRouter();
   const { id } = router.query;
-  const [subdoc04_list, setSubdoc04List] = React.useState([]);
+  const [subdoc04_list, setSubdoc04List] = React.useState({});
   const handleSubmit = (event) => {
     event.target.disabled = true;
     let node_list = document.querySelectorAll('.form-check-input');
     let ll = [];
     node_list.forEach((current) => {
-      if (current.checked) ll.push(current.value);
+      if (current.checked)
+        ll.push({
+          carriage: current.value,
+          time_begin: subdoc04.time_begin,
+          time_end: subdoc04.time_end,
+          dept: subdoc04.dept,
+          operator: subdoc04.operator,
+          remark: subdoc04.remark,
+        });
     });
+    let body = {
+      subject: subdoc04.subject,
+      version: subdoc04.version,
+      version2: subdoc04.version2,
+      sn: subdoc04.sn,
+      train: subdoc04.train,
+      date: subdoc04.date,
+      list: JSON.stringify(ll),
+    };
     fetch(`/api/pitchfork/detail/${id}?option=report-subdoc04`, {
       method: 'PUT',
       headers: {
         'content-type': 'application/json',
       },
-      body: JSON.stringify({ ...subdoc04, carriage: ll.join(',') }),
+      body: JSON.stringify(body),
     })
       .then((response) => {
         if (response.status === 200) {
@@ -74,10 +91,15 @@ export default function SaveSubDocument04({ data }) {
     fetch(`/api/pitchfork/detail/${id}?option=subdoc04`)
       .then((response) => response.json())
       .then((data) => {
-        let ll = eval(data.subdoc04).map((current, index) => {
-          return { id: index, ...current };
+        setSubdoc04List({
+          subject: data.subject,
+          version: data.version,
+          version2: data.version2,
+          sn: data.sn,
+          train: data.train,
+          date: data.date,
+          list: eval(data.list),
         });
-        setSubdoc04List(ll);
       })
       .catch((err) => alert(err));
   };
