@@ -37,14 +37,29 @@ export default function SaveSubDocument02({ data }) {
     let node_list = document.querySelectorAll('.form-check-input');
     let ll = [];
     node_list.forEach((current) => {
-      if (current.checked) ll.push(current.value);
+      if (current.checked)
+        ll.push({
+          carriage: current.value,
+          name: subdoc02.name,
+          train: subdoc02.train,
+          position: subdoc02.position,
+          date: subdoc02.date,
+          time: subdoc02.time,
+          reason: subdoc02.reason,
+          p_gywj: subdoc02.p_gywj,
+          p_ljbs: subdoc02.p_ljbs,
+          sn: subdoc02.sn,
+          sn2: subdoc02.sn2,
+          p_bjaz: subdoc02.p_bjaz,
+          operator: subdoc02.operator,
+        });
     });
     fetch(`/api/pitchfork/detail/${id}?option=report-subdoc02`, {
       method: 'PUT',
       headers: {
         'content-type': 'application/json',
       },
-      body: JSON.stringify({ ...subdoc02, carriage: ll.join(',') }),
+      body: JSON.stringify({ list: JSON.stringify(ll) }),
     })
       .then((response) => {
         if (response.status === 200) {
@@ -75,7 +90,7 @@ export default function SaveSubDocument02({ data }) {
     fetch(`/api/pitchfork/detail/${id}?option=subdoc02`)
       .then((response) => response.json())
       .then((data) => {
-        let ll = eval(data.subdoc02).map((current, index) => {
+        let ll = eval(data.subdoc02.value).map((current, index) => {
           return { id: index, ...current };
         });
         setSubdoc02List(ll);
