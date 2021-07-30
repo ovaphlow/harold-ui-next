@@ -38,14 +38,30 @@ export default function SaveSubDocument03({ data }) {
     let node_list = document.querySelectorAll('.form-check-input');
     let ll = [];
     node_list.forEach((current) => {
-      if (current.checked) ll.push(current.value);
+      if (current.checked)
+        ll.push({
+          carriage: current.value,
+          name: subdoc03.name,
+          train: subdoc03.train,
+          position: subdoc03.position,
+          date: subdoc03.date,
+          time: subdoc03.time,
+          production_date: subdoc03.production_date,
+          reason: subdoc03.reason,
+          p_gywj: subdoc03.p_gywj,
+          p_ljbs: subdoc03.p_ljbs,
+          sn: subdoc03.sn,
+          sn2: subdoc03.sn2,
+          p_bjaz: subdoc03.p_bjaz,
+          operator: subdoc03.operator,
+        });
     });
     fetch(`/api/pitchfork/detail/${id}?option=report-subdoc03`, {
       method: 'PUT',
       headers: {
         'content-type': 'application/json',
       },
-      body: JSON.stringify({ ...subdoc03, carriage: ll.join(',') }),
+      body: JSON.stringify({ list: JSON.stringify(ll) }),
     })
       .then((response) => {
         if (response.status === 200) {
@@ -76,7 +92,7 @@ export default function SaveSubDocument03({ data }) {
     fetch(`/api/pitchfork/detail/${id}?option=subdoc03`)
       .then((response) => response.json())
       .then((data) => {
-        let ll = eval(data.subdoc03).map((current, index) => {
+        let ll = eval(data.subdoc03.value).map((current, index) => {
           return { id: index, ...current };
         });
         setSubdoc03List(ll);
