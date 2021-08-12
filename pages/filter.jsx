@@ -5,6 +5,7 @@ import { faLink } from '@fortawesome/free-solid-svg-icons';
 
 import Footer from '../component/Footer.jsx';
 import Navbar from '../component/Navbar.jsx';
+import { DeptInput } from '../component/Input.jsx';
 import { PROGRESS, reducer } from '../util/miscellaneous';
 
 let initial_filter = {
@@ -113,6 +114,7 @@ export default function Filter() {
                 <span className="text-danger">***待实现：按时间查询***</span>
                 <div className="input-group mb-3 col">
                   <span className="input-group-text">部门/单位</span>
+                  <DeptInput />
                   <input
                     type="text"
                     value={filter.dept}

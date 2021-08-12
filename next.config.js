@@ -1,6 +1,7 @@
 module.exports = {
   reactStrictMode: true,
   env: {
-    gateway: 'http://192.168.0.12:8080',
+    gateway: 'http://127.0.0.1:8080',
+    warehouse: 'http://127.0.0.1:34200',
   },
 };
