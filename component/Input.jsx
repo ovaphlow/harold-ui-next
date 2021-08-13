@@ -1,25 +1,45 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-export function DeptInput() {
+export function DeptDataList() {
+  const [list, setList] = React.useState([]);
+
   React.useEffect(() => {
-    let path = ['/api/prop/', '?option=', '&category=dept'];
-    console.info(path.join(''));
+    let path = ['/api/prop/', '?option=', `&category=${encodeURI('部门')}`];
     fetch(path.join(''))
       .then((response) => response.json())
       .then((data) => {
-        console.info(12313123, data);
-      })
-      .catch((err) => {
-        console.error(err);
+        setList(data);
       });
   }, []);
 
   return (
-    <>
-      <input type="text" list="dept-input-datalist" className="form-control" />
-      <datalist id="dept-input-datalist">
-        <option value="" />
-      </datalist>
-    </>
+    <datalist id="dept-datalist">
+      {list.map((current) => (
+        <option value={current.name} key={current.id} />
+      ))}
+    </datalist>
+  );
+}
+
+export function TrainDataList() {
+  const [list, setList] = React.useState([]);
+
+  React.useEffect(() => {
+    let path = ['/api/prop/', '?option=', `&category=${encodeURI('车组')}`];
+    fetch(path.join(''))
+      .then((response) => response.json())
+      .then((data) => {
+        console.info(data);
+        setList(data);
+      });
+  }, []);
+
+  return (
+    <datalist id="train-datalist">
+      {list.map((current) => (
+        <option value={current.name} key={current.id} />
+      ))}
+    </datalist>
   );
 }

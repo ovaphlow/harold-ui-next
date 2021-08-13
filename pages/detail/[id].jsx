@@ -89,9 +89,7 @@ export default function Detail({ data }) {
       })
       .catch((err) => alert(err));
   };
-  const handleReport = (event) => {
-    event.target.disabled = true;
-  };
+  // const handleReport = (event) => { event.target.disabled = true; };
 
   React.useEffect(() => {
     dispatch({
