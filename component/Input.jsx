@@ -37,7 +37,6 @@ export function TrainDataList() {
     fetch(path.join(''))
       .then((response) => response.json())
       .then((data) => {
-        console.info(data);
         setList(data);
       });
   }, []);
